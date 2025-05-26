@@ -251,7 +251,7 @@ class MediaLibrary extends Model implements HasMedia
      */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
@@ -259,7 +259,7 @@ class MediaLibrary extends Model implements HasMedia
      */
     public function format()
     {
-        return $this->belongsTo('App\Format');
+        return $this->belongsTo(\App\Format::class);
     }
 
     /**
@@ -267,7 +267,7 @@ class MediaLibrary extends Model implements HasMedia
      */
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector');
+        return $this->belongsToMany(\App\Sector::class);
     }
 
     /**
@@ -275,7 +275,7 @@ class MediaLibrary extends Model implements HasMedia
      */
     public function status()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo(\App\Status::class);
     }
 
     /**
@@ -283,7 +283,7 @@ class MediaLibrary extends Model implements HasMedia
      */
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this->belongsToMany(\App\Tag::class);
     }
 
     /**

@@ -40,6 +40,6 @@ class Condition extends Model
      */
     public function demos()
     {
-        return $this->hasMany('App\DemoCaseStudy');
+        return $this->hasMany(\App\DemoCaseStudy::class);
     }
 }

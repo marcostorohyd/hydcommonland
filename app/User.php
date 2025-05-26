@@ -57,7 +57,7 @@ class User extends Authenticatable
      */
     public function directory()
     {
-        return $this->hasOne('App\Directory');
+        return $this->hasOne(\App\Directory::class);
     }
 
     /**

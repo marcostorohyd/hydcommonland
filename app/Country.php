@@ -41,7 +41,7 @@ class Country extends Model
      */
     public function contact()
     {
-        return $this->belongsTo('App\Directory');
+        return $this->belongsTo(\App\Directory::class);
     }
 
     /**
@@ -49,7 +49,7 @@ class Country extends Model
      */
     public function demos()
     {
-        return $this->hasMany('App\DemoCaseStudy');
+        return $this->hasMany(\App\DemoCaseStudy::class);
     }
 
     /**
@@ -57,7 +57,7 @@ class Country extends Model
      */
     public function directories()
     {
-        return $this->hasMany('App\Directory');
+        return $this->hasMany(\App\Directory::class);
     }
 
     /**
@@ -65,7 +65,7 @@ class Country extends Model
      */
     public function events()
     {
-        return $this->hasMany('App\Event');
+        return $this->hasMany(\App\Event::class);
     }
 
     /**
@@ -73,7 +73,7 @@ class Country extends Model
      */
     public function mediaLibrary()
     {
-        return $this->hasMany('App\MediaLibrary');
+        return $this->hasMany(\App\MediaLibrary::class);
     }
 
     /**
@@ -81,6 +81,6 @@ class Country extends Model
      */
     public function news()
     {
-        return $this->hasMany('App\News');
+        return $this->hasMany(\App\News::class);
     }
 }

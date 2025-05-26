@@ -190,7 +190,7 @@ class DemoCaseStudy extends Model
      */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
@@ -198,7 +198,7 @@ class DemoCaseStudy extends Model
      */
     public function values()
     {
-        return $this->belongsToMany('App\Value');
+        return $this->belongsToMany(\App\Value::class);
     }
 
     /**
@@ -206,7 +206,7 @@ class DemoCaseStudy extends Model
      */
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector');
+        return $this->belongsToMany(\App\Sector::class);
     }
 
     /**
@@ -214,7 +214,7 @@ class DemoCaseStudy extends Model
      */
     public function status()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo(\App\Status::class);
     }
 
     /**
