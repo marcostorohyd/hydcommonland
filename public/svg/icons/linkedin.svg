@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 20.52 21.36">
+ <defs>
+  <style>.cls-1{stroke:#3c3c3b;stroke-linecap:round;stroke-miterlimit:10;stroke-width:1.28px;}.cls-2{fill:#3c3c3b;}</style>
+ </defs>
+ <title>Linkedin</title>
+ <rect class="cls-1" height="20.08" width="19.24" stroke="#3c3c3b" stroke-linecap="round" stroke-miterlimit="10" y="0.64" x="0.64" stroke-width="1.28px" fill="none"/>
+ <path fill="#3c3c3b" class="cls-2" d="m4.54 8.31a1.08 1.08 0 1 1 0.77 0.32 1 1 0 0 1 -0.77 -0.32zm1.62 9.82h-1.73v-8.19h1.72z"/>
+ <path fill="#3c3c3b" class="cls-2" d="m10.37 13.7v4.43h-1.73v-8.19h1.72v1.49a3.21 3.21 0 0 1 5 -0.77 3.3 3.3 0 0 1 0.85 2.45v5h-1.75v-4.47q0-2.26-1.88-2.26a2.25 2.25 0 0 0 -1.58 0.62 2.2 2.2 0 0 0 -0.63 1.7z"/>
+</svg>

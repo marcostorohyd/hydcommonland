@@ -1,0 +1,191 @@
+// Fonts
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+
+$font-size-base: .9rem;
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+$header-height: (205px + 44px);
+$footer-height: 86px;
+
+
+// Common
+@import 'common';
+
+
+h1 {
+  border-bottom: 2px solid $body-color;
+}
+
+h2 small {
+  font-size: 65%;
+  line-height: 1;
+  padding-left: 1rem;
+  text-transform: initial !important;
+}
+
+main {
+  .container-fluid > .row > div {
+    @media (min-width: 992px) {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
+  p {
+    font-size: 1.4rem;
+    line-height: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+
+// Forms
+
+input,
+select {
+  padding-left: .5rem !important;
+}
+
+form .form-control {
+  font-size: 1.4rem;
+}
+
+.lang-group .lang-buttons .btn-lang {
+  width: calc(20px + .5rem);
+}
+
+// Table
+
+.table {
+
+  thead {
+    > tr:first-child th {
+      text-transform: uppercase;
+    }
+
+    th {
+      border-bottom-width: 1px !important;
+      border-top-width: 0;
+      font-size: 1rem;
+    }
+  }
+
+  > tr:first-child th {
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  tbody > tr:first-child > td {
+    border-top-width: 2px;
+  }
+
+  input,
+  select {
+    border-width: 1px !important;
+  }
+
+  select {
+    padding: 0.521em 0 !important;
+  }
+}
+
+
+// Components
+
+// Badges
+
+.badge {
+  border: 1px solid #606059;
+  font-weight: normal;
+  padding: .3rem .5rem;
+}
+
+// Breadcrumb
+
+.breadcrumb {
+  background-color: transparent;
+  font-size: .9rem;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+
+// Navbar
+
+#navbar-main {
+
+  @media (max-width: 991px) {
+    box-shadow: none !important;
+  }
+
+  .navbar-toggler:not(.collapse)[aria-expanded=true] .navbar-toggler-icon {
+    margin-top: 0 !important;
+  }
+
+  & + .navbar-second {
+    margin-bottom: 1.5rem;
+    transition: all .5s;
+
+    @media (min-width: 992px) {
+      display: none;
+    }
+  }
+}
+
+.nav-item.active a {
+  color: $body-color;
+}
+
+.menu-toggle {
+  #navbar-main {
+    .navbar-toggler .navbar-toggler-icon {
+      height: 50px;
+      width: 50px;
+    }
+  }
+}
+
+#sidebar {
+  position: sticky;
+  top: 140px;
+  z-index: 502;
+}
+
+body .navbar-second:first-child {
+  @media (max-width: 991px) {
+    display: none;
+  }
+}
+
+body:not(.scroll) {
+  .lang-switcher svg {
+    @media (min-width: 576px) {
+      height: 50px;
+      width: 51px;
+    }
+  }
+}
+
+
+// Plugins
+
+// Datatables
+
+#paginate-wrapper {
+  font-size: .9rem;
+
+  @media (min-width: 576px) {
+    float: right;
+  }
+
+  @media (min-width: 992px) {
+    padding-top: .5rem;
+  }
+}
