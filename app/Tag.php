@@ -40,6 +40,6 @@ class Tag extends Model
      */
     public function mediaLibrary()
     {
-        return $this->hasMany('App\MediaLibrary');
+        return $this->hasMany(\App\MediaLibrary::class);
     }
 }

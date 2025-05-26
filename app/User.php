@@ -54,10 +54,10 @@ class User extends Authenticatable
 
     /**
      * Get the directory record associated with the user.
-     */
+    */
     public function directory()
     {
-        return $this->hasOne('App\Directory');
+        return $this->hasOne(\App\Directory::class);
     }
 
     /**

@@ -171,7 +171,7 @@ class Event extends Model
      */
     public function assitance()
     {
-        return $this->belongsTo('App\EventAssistance');
+        return $this->belongsTo(\App\EventAssistance::class);
     }
 
     /**
@@ -179,7 +179,7 @@ class Event extends Model
      */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
@@ -187,7 +187,7 @@ class Event extends Model
      */
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector');
+        return $this->belongsToMany(\App\Sector::class);
     }
 
     /**
@@ -195,7 +195,7 @@ class Event extends Model
      */
     public function status()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo(\App\Status::class);
     }
 
     /**
@@ -203,7 +203,7 @@ class Event extends Model
      */
     public function type()
     {
-        return $this->belongsTo('App\EventType');
+        return $this->belongsTo(\App\EventType::class);
     }
 
     /**

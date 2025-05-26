@@ -38,49 +38,49 @@ class Country extends Model
 
     /**
      * Get the contact that owns the country.
-     */
-    public function contact()
-    {
-        return $this->belongsTo('App\Directory');
-    }
+      */
+     public function contact()
+     {
+         return $this->belongsTo(\App\Directory::class);
+     }
 
-    /**
-     * Get the demo case studies for the country.
-     */
-    public function demos()
-    {
-        return $this->hasMany('App\DemoCaseStudy');
-    }
+     /**
+      * Get the demo case studies for the country.
+      */
+     public function demos()
+     {
+         return $this->hasMany(\App\DemoCaseStudy::class);
+     }
 
-    /**
-     * Get the directories for the country.
-     */
-    public function directories()
-    {
-        return $this->hasMany('App\Directory');
-    }
+     /**
+      * Get the directories for the country.
+      */
+     public function directories()
+     {
+         return $this->hasMany(\App\Directory::class);
+     }
 
-    /**
-     * Get the events for the country.
-     */
-    public function events()
-    {
-        return $this->hasMany('App\Event');
-    }
+     /**
+      * Get the events for the country.
+      */
+     public function events()
+     {
+         return $this->hasMany(\App\Event::class);
+     }
 
-    /**
-     * Get the media library for the country.
-     */
-    public function mediaLibrary()
-    {
-        return $this->hasMany('App\MediaLibrary');
-    }
+     /**
+      * Get the media library for the country.
+      */
+     public function mediaLibrary()
+     {
+         return $this->hasMany(\App\MediaLibrary::class);
+     }
 
-    /**
-     * Get the news for the country.
-     */
-    public function news()
-    {
-        return $this->hasMany('App\News');
-    }
-}
+     /**
+      * Get the news for the country.
+      */
+     public function news()
+     {
+         return $this->hasMany(\App\News::class);
+     }
+ }

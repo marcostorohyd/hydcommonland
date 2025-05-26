@@ -37,9 +37,9 @@ class Sector extends Model
 
     /**
      * The directories that belong to the sector.
-     */
+      */
     public function directories()
     {
-        return $this->belongsToMany('App\Directory');
+        return $this->belongsToMany(\App\Directory::class);
     }
 }

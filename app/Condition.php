@@ -37,9 +37,9 @@ class Condition extends Model
 
     /**
      * Get the demo case studies for the condition.
-     */
+      */
     public function demos()
-     {
-         return $this->hasMany(\App\DemoCaseStudy::class);
-     }
- }
+    {
+        return $this->hasMany(\App\DemoCaseStudy::class);
+    }
+}

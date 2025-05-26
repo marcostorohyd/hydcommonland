@@ -187,37 +187,37 @@ class DemoCaseStudy extends Model
 
     /**
      * Get the country that owns the demo case study.
-     */
-    public function country()
-    {
-        return $this->belongsTo('App\Country');
-    }
+    */
+     public function country()
+     {
+         return $this->belongsTo(\App\Country::class);
+     }
 
-    /**
-     * The values that belong to the demo case study.
-     */
-    public function values()
-    {
-        return $this->belongsToMany('App\Value');
-    }
+     /**
+      * The values that belong to the demo case study.
+      */
+     public function values()
+     {
+         return $this->belongsToMany(\App\Value::class);
+     }
 
-    /**
-     * The sectors that belong to the demo case study.
-     */
-    public function sectors()
-    {
-        return $this->belongsToMany('App\Sector');
-    }
+     /**
+      * The sectors that belong to the demo case study.
+      */
+     public function sectors()
+     {
+         return $this->belongsToMany(\App\Sector::class);
+     }
 
-    /**
-     * Get the status that owns the demo case study.
-     */
-    public function status()
-    {
-        return $this->belongsTo('App\Status');
-    }
+     /**
+      * Get the status that owns the demo case study.
+      */
+     public function status()
+     {
+         return $this->belongsTo(\App\Status::class);
+     }
 
-    /**
+     /**
      * Get image path.
      *
      * @return string

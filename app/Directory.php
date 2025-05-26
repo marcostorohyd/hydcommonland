@@ -163,10 +163,10 @@ class Directory extends Model
 
     /**
      * Get the country that owns the directory.
-     */
+      */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
@@ -174,7 +174,7 @@ class Directory extends Model
      */
     public function entity()
     {
-        return $this->belongsTo('App\Entity');
+        return $this->belongsTo(\App\Entity::class);
     }
 
     /**
@@ -182,7 +182,7 @@ class Directory extends Model
      */
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector');
+        return $this->belongsToMany(\App\Sector::class);
     }
 
     /**
@@ -190,7 +190,7 @@ class Directory extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(\App\User::class);
     }
 
     /**
@@ -198,7 +198,7 @@ class Directory extends Model
      */
     public function status()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo(\App\Status::class);
     }
 
     /**

@@ -166,10 +166,10 @@ class News extends Model
 
     /**
      * Get the country that owns the news.
-     */
+    */
     public function country()
     {
-        return $this->belongsTo('App\Country');
+        return $this->belongsTo(\App\Country::class);
     }
 
     /**
@@ -177,7 +177,7 @@ class News extends Model
      */
     public function sectors()
     {
-        return $this->belongsToMany('App\Sector');
+        return $this->belongsToMany(\App\Sector::class);
     }
 
     /**
@@ -185,7 +185,7 @@ class News extends Model
      */
     public function status()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsTo(\App\Status::class);
     }
 
     /**
