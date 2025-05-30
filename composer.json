@@ -21,7 +21,7 @@
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
-        "maatwebsite/excel": "^3.1",
+        "maatwebsite/excel": "^3.1.8",
         "league/oauth2-client": "^2.4",
         "renatomarinho/laravel-page-speed": "^1.8",
         "overtrue/laravel-lang": "^3.0",
@@ -36,8 +36,8 @@
         "fzaninotto/faker": "^1.4",
         "kkomelin/laravel-translatable-string-exporter": "^1.13",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "nunomaduro/collision": "^3.0",
+        "phpunit/phpunit": "^7.5"
     },
     "config": {
         "optimize-autoloader": true,
