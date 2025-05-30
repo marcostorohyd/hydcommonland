@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -18,8 +19,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         // 'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => str_random(10), // secret
-        'remember_token' => str_random(10),
+        'password' => Str::random(10), // secret
+        'remember_token' => Str::random(10),
         'approved_at' => $faker->numberBetween(0, 1) ? now() : null,
     ];
 });

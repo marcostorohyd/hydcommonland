@@ -2,6 +2,7 @@
 
 namespace App\Generators;
 
+use Illuminate\Support\Str;
 use App\Config;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
@@ -14,7 +15,7 @@ class CustomUrlGenerator extends LocalUrlGenerator
             return $diskUrl;
         }
 
-        if (! starts_with($this->getStoragePath(), public_path())) {
+        if (! Str::startsWith($this->getStoragePath(), public_path())) {
             throw UrlCannotBeDetermined::mediaNotPubliclyAvailable($this->getStoragePath(), public_path());
         }
 
