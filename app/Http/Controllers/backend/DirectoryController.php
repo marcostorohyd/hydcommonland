@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Directory;
 use App\Country;
+use App\Directory;
 use App\Entity;
+use App\Http\Controllers\Controller;
 use App\Sector;
 use App\Status;
 use App\User;
-use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,14 +42,14 @@ class DirectoryController extends Controller
             'entity_id' => $request->post('entity_id'),
             'country_id' => $request->post('country_id'),
             'sector_id' => $request->post('sector_id'),
-            'status_id' => $request->post('status_id')
+            'status_id' => $request->post('status_id'),
         ];
 
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
-            'statuses' => Status::all()->pluck('name', 'id')
+            'statuses' => Status::all()->pluck('name', 'id'),
         ];
 
         return view('backend.directory.index', compact('data', 'request'));
@@ -58,7 +58,6 @@ class DirectoryController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -68,17 +67,17 @@ class DirectoryController extends Controller
         $table1 = (new Directory)->getTable();
         $table2 = (new Status)->getTable();
         $directories = Directory::select("{$table1}.*")
-                                ->with('entity', 'country', 'sectors', 'status')
-                                ->join("{$table2}", "{$table1}.status_id", '=', "{$table2}.id")
-                                ->orderBy('statuses.order', 'asc')
-                                ->latest();
+            ->with('entity', 'country', 'sectors', 'status')
+            ->join("{$table2}", "{$table1}.status_id", '=', "{$table2}.id")
+            ->orderBy('statuses.order', 'asc')
+            ->latest();
 
         return DataTables::of($directories)
             ->filter(function ($query) use ($request) {
                 if (! empty($search = $request->get('name'))) {
                     $query->where(function ($query) use ($search) {
                         $query->where('name', 'like', "%{$search}%")
-                              ->orWhere('email', 'like', "%{$search}%");
+                            ->orWhere('email', 'like', "%{$search}%");
                     });
                 }
                 if (! empty($search = $request->get('entity_id'))) {
@@ -110,7 +109,7 @@ class DirectoryController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.directory.create', compact('data'));
@@ -119,7 +118,6 @@ class DirectoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -164,23 +162,23 @@ class DirectoryController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
 
         $data = $request->all();
 
-        if (Entity::PERSON == $data['entity_id']) {
+        if ($data['entity_id'] == Entity::PERSON) {
             $data['contact_name'] = null;
             $data['contact_email'] = null;
             $data['contact_phone'] = null;
         }
 
         $data['partners'] = in_array($data['entity_id'], [6]) ? $data['partners'] : null;
-        $data['members'] = in_array($data['entity_id'], [4,5,7]) ? $data['members'] : null;
+        $data['members'] = in_array($data['entity_id'], [4, 5, 7]) ? $data['members'] : null;
         $data['represented'] = in_array($data['entity_id'], [8]) ? $data['represented'] : null;
-        $data['surface'] = in_array($data['entity_id'], [4,8]) ? $data['surface'] : null;
+        $data['surface'] = in_array($data['entity_id'], [4, 8]) ? $data['surface'] : null;
 
         $current_user_id = auth()->user()->id;
 
@@ -195,7 +193,7 @@ class DirectoryController extends Controller
 
         if (! empty($data['image'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'photo.' . $extension;
+            $data['image'] = 'photo.'.$extension;
         }
 
         // Locales
@@ -229,13 +227,13 @@ class DirectoryController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha creado el usuario correctamente.'));
+
         return redirect()->route('backend.directory.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function show(Directory $directory)
@@ -243,7 +241,7 @@ class DirectoryController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         $user = $directory->user;
@@ -254,7 +252,6 @@ class DirectoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function edit(Directory $directory)
@@ -262,7 +259,7 @@ class DirectoryController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         $user = $directory->user;
@@ -273,8 +270,6 @@ class DirectoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Directory $directory)
@@ -319,7 +314,7 @@ class DirectoryController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -332,20 +327,20 @@ class DirectoryController extends Controller
             $data = $request->except('password');
         }
 
-        if (Entity::PERSON == $data['entity_id']) {
+        if ($data['entity_id'] == Entity::PERSON) {
             $data['contact_name'] = null;
             $data['contact_email'] = null;
             $data['contact_phone'] = null;
         }
 
         $data['partners'] = in_array($data['entity_id'], [6]) ? $data['partners'] : null;
-        $data['members'] = in_array($data['entity_id'], [4,5,7]) ? $data['members'] : null;
+        $data['members'] = in_array($data['entity_id'], [4, 5, 7]) ? $data['members'] : null;
         $data['represented'] = in_array($data['entity_id'], [8]) ? $data['represented'] : null;
-        $data['surface'] = in_array($data['entity_id'], [4,8]) ? $data['surface'] : null;
+        $data['surface'] = in_array($data['entity_id'], [4, 8]) ? $data['surface'] : null;
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'photo.' . $extension;
+            $data['image'] = 'photo.'.$extension;
         } elseif (empty($data['image'])) {
             $data['image'] = null;
 
@@ -391,13 +386,13 @@ class DirectoryController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha actualizado el usuario correctamente.'));
+
         return redirect()->route('backend.directory.edit', $directory->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function destroy(Directory $directory)
@@ -419,6 +414,7 @@ class DirectoryController extends Controller
             }
 
             session()->flash('alert-success', __('Se ha eliminado el usuario correctamente.'));
+
             return redirect()->route('backend.directory.index');
         }
 
@@ -428,7 +424,6 @@ class DirectoryController extends Controller
     /**
      * Approve the specified resource.
      *
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function approve(Directory $directory)
@@ -449,7 +444,6 @@ class DirectoryController extends Controller
     /**
      * Refuse the specified resource.
      *
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function refuse(Directory $directory)
@@ -470,7 +464,6 @@ class DirectoryController extends Controller
     /**
      * Search directory.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function search(Request $request)
@@ -489,14 +482,14 @@ class DirectoryController extends Controller
             Directory::select([
                 'id',
                 'name',
-                'status_id'
+                'status_id',
             ])
-            ->where(function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
-            ->orderBy('name', 'asc')
-            ->take(20)
-            ->get()
+                ->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->orderBy('name', 'asc')
+                ->take(20)
+                ->get()
         );
     }
 }

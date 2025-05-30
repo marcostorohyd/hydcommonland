@@ -145,16 +145,16 @@ return [
     */
 
     'attributes' => [
-        'city'                  => 'town/city',
-        'condition'             => 'status',
+        'city' => 'town/city',
+        'condition' => 'status',
 
-        'country_id'            => 'country',
-        'entity_id'             => 'entity',
-        'es-ES.description'     => 'description (es)',
-        'fr.description'        => 'description (fr)',
-        'en.description'        => 'description (en)',
-        'directory_email'       => 'email',
-        'contact_email'         => 'email',
+        'country_id' => 'country',
+        'entity_id' => 'entity',
+        'es-ES.description' => 'description (es)',
+        'fr.description' => 'description (fr)',
+        'en.description' => 'description (en)',
+        'directory_email' => 'email',
+        'contact_email' => 'email',
     ],
 
 ];

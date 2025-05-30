@@ -20,6 +20,6 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => str_random(10), // secret
         'remember_token' => str_random(10),
-        'approved_at' => $faker->numberBetween(0, 1) ? now() : null
+        'approved_at' => $faker->numberBetween(0, 1) ? now() : null,
     ];
 });

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\backend;
 
 use App\Config;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {
@@ -23,7 +23,6 @@ class ConfigController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Config  $config
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +31,7 @@ class ConfigController extends Controller
         $rules = [
             'contact_name' => 'required|string',
             'contact_email' => 'required|email',
-            'contact_phone' => 'required|string'
+            'contact_phone' => 'required|string',
         ];
 
         $this->validate($request, $rules);
@@ -47,6 +46,7 @@ class ConfigController extends Controller
         }
 
         session()->flash('alert-success', 'Se ha actualizado la configuración correctamente.');
+
         return redirect()->route('backend.config.edit');
     }
 }

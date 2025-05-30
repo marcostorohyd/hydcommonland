@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\DirectoryChange;
 use App\Country;
+use App\DirectoryChange;
 use App\Entity;
-use App\Sector;
 use App\Http\Controllers\Controller;
+use App\Sector;
 use App\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +34,7 @@ class DirectoryChangeController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.directory.create', compact('data'));
@@ -43,18 +43,13 @@ class DirectoryChangeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DirectoryChange  $directoryChange
      * @return \Illuminate\Http\Response
      */
     public function show(DirectoryChange $directoryChange)
@@ -62,7 +57,7 @@ class DirectoryChangeController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         $directory = $directoryChange->directory;
@@ -73,7 +68,6 @@ class DirectoryChangeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DirectoryChange  $directoryChange
      * @return \Illuminate\Http\Response
      */
     public function edit(DirectoryChange $directoryChange)
@@ -81,7 +75,7 @@ class DirectoryChangeController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         $user = $directoryChange->user;
@@ -92,14 +86,10 @@ class DirectoryChangeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\DirectoryChange  $directoryChange
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Directory $directoryChange)
-    {
-
-    }
+    public function update(Request $request, Directory $directoryChange) {}
 
     /**
      * Approve the specified resource.
@@ -137,6 +127,7 @@ class DirectoryChangeController extends Controller
         });
 
         session()->flash('alert-success', __('Se han actualizado los datos correctamente.'));
+
         return redirect()->route('backend.directory.edit', $directory->id);
     }
 
@@ -163,7 +154,7 @@ class DirectoryChangeController extends Controller
         });
 
         session()->flash('alert-success', __('Rechazado los cambios correctamente.'));
+
         return redirect()->route('backend.directory.edit', $directory->id);
     }
-
 }

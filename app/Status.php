@@ -64,7 +64,7 @@ class Status extends Model
     /**
      * Scope a query to order.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrder($query)
@@ -80,7 +80,7 @@ class Status extends Model
     protected $fillable = [
         'order',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**

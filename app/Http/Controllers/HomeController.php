@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Entity;
 use App\Config;
 use App\Country;
-use App\Sector;
 use App\Directory;
+use App\Entity;
+use App\Sector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 
@@ -22,23 +22,23 @@ class HomeController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'countries' => Country::has('directories')->get()->sortBy('name')->pluck('name', 'id'),
-            'sectors' => Sector::all()->pluck('name', 'id')
+            'sectors' => Sector::all()->pluck('name', 'id'),
         ];
 
         if (request()->get('close') && $filter = session('filter_directory')) {
             Input::merge([
                 'entity_id' => $filter['entity_id'],
                 'country_id' => $filter['country_id'],
-                'sector_id' => $filter['sector_id']
+                'sector_id' => $filter['sector_id'],
             ]);
             Input::flash();
         }
 
         $directories = Directory::whereNotNull('latitude')
-                                ->whereNotNull('longitude')
-                                ->orderBy('name')
-                                ->with('entity')
-                                ->get();
+            ->whereNotNull('longitude')
+            ->orderBy('name')
+            ->with('entity')
+            ->get();
 
         $tmp = [];
         foreach ($directories as $directory) {
@@ -48,8 +48,8 @@ class HomeController extends Controller
                     'name' => $directory->name,
                     'entity' => [
                         'id' => $directory->entity->id,
-                        'name' => $directory->entity->name
-                    ]
+                        'name' => $directory->entity->name,
+                    ],
                 ];
             } else {
                 $tmp["{$directory->latitude},{$directory->longitude}"] = [
@@ -61,10 +61,10 @@ class HomeController extends Controller
                             'name' => $directory->name,
                             'entity' => [
                                 'id' => $directory->entity->id,
-                                'name' => $directory->entity->name
-                            ]
-                        ]
-                    ]
+                                'name' => $directory->entity->name,
+                            ],
+                        ],
+                    ],
                 ];
             }
         }
@@ -96,14 +96,14 @@ class HomeController extends Controller
     {
         $config = Config::pluck('value', 'name')->all();
         $countries = Country::select('countries.id', 'countries.contact_id', 't.name')
-                            ->has('contact')
-                            ->join('country_translations as t', function ($join) {
-                                $join->on('countries.id', '=', 't.country_id')
-                                    ->where('t.locale', '=', locale());
-                            })
-                            ->groupBy('countries.id', 'countries.contact_id', 't.name')
-                            ->orderBy('t.name', 'asc')
-                            ->get();
+            ->has('contact')
+            ->join('country_translations as t', function ($join) {
+                $join->on('countries.id', '=', 't.country_id')
+                    ->where('t.locale', '=', locale());
+            })
+            ->groupBy('countries.id', 'countries.contact_id', 't.name')
+            ->orderBy('t.name', 'asc')
+            ->get();
 
         return view('contact', compact('config', 'countries'));
     }

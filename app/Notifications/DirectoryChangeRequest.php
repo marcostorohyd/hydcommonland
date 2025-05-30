@@ -4,9 +4,8 @@ namespace App\Notifications;
 
 use App\Directory;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class DirectoryChangeRequest extends Notification
 {
@@ -49,9 +48,9 @@ class DirectoryChangeRequest extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('Solicitud cambio de datos en directorio.'))
-                    ->line(__('Un/a usuario/a ha solicitado un cambio de datos.'))
-                    ->action(__('Ver datos del directorio'), route('backend.directory.edit', $this->directory->id));
+            ->subject(__('Solicitud cambio de datos en directorio.'))
+            ->line(__('Un/a usuario/a ha solicitado un cambio de datos.'))
+            ->action(__('Ver datos del directorio'), route('backend.directory.edit', $this->directory->id));
     }
 
     /**

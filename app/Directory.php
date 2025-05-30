@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
-use Dimsav\Translatable\Translatable;
 
 class Directory extends Model
 {
@@ -60,7 +60,7 @@ class Directory extends Model
         'orcid',
         'academia_edu',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
@@ -97,7 +97,7 @@ class Directory extends Model
         parent::boot();
 
         $route = request()->route();
-        if (empty($route) || '/backend' !== $route->getPrefix()) {
+        if (empty($route) || $route->getPrefix() !== '/backend') {
             static::addGlobalScope('visible', function (Builder $builder) {
                 $builder->approved();
             });
@@ -107,7 +107,7 @@ class Directory extends Model
     /**
      * Scope a query to only include admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeApproved($query)
@@ -122,7 +122,7 @@ class Directory extends Model
      */
     public function getNameWithStatusAttribute()
     {
-        if (Status::APPROVED != $this->status_id) {
+        if ($this->status_id != Status::APPROVED) {
             return "{$this->name} ({$this->status->name})";
         }
 
@@ -132,8 +132,7 @@ class Directory extends Model
     /**
      * Query
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function filter(Builder $query, \Illuminate\Http\Request $request)
@@ -163,7 +162,7 @@ class Directory extends Model
 
     /**
      * Get the country that owns the directory.
-      */
+     */
     public function country()
     {
         return $this->belongsTo(\App\Country::class);
@@ -216,13 +215,13 @@ class Directory extends Model
         $address[] = $this->zipcode;
         $address[] = $this->city;
 
-        return implode(' ', $address) . ' - ' . $this->country->name;
+        return implode(' ', $address).' - '.$this->country->name;
     }
 
     /**
      * Check if it has surface
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSurface()
     {
@@ -265,14 +264,14 @@ class Directory extends Model
     /**
      * Has social attributes.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSocialAttributes()
     {
         $socialAttributes = self::socialAttributes();
 
         foreach ($socialAttributes as $item) {
-            if (!empty($this->{$item})) {
+            if (! empty($this->{$item})) {
                 return true;
             }
         }

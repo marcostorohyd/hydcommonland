@@ -2,11 +2,11 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
-use Dimsav\Translatable\Translatable;
 
 class Event extends Model
 {
@@ -54,7 +54,7 @@ class Event extends Model
         'image',
         'status_id',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
@@ -84,7 +84,7 @@ class Event extends Model
         parent::boot();
 
         $route = request()->route();
-        if (empty($route) || '/backend' !== $route->getPrefix()) {
+        if (empty($route) || $route->getPrefix() !== '/backend') {
             static::addGlobalScope('approved', function (Builder $builder) {
                 $builder->approved();
             });
@@ -101,7 +101,7 @@ class Event extends Model
     /**
      * Scope a query to only include admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeApproved($query)
@@ -112,7 +112,7 @@ class Event extends Model
     /**
      * Scope a query to only include no admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeMe($query)
@@ -123,8 +123,7 @@ class Event extends Model
     /**
      * Query
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function filter(Builder $query, \Illuminate\Http\Request $request)
@@ -132,7 +131,7 @@ class Event extends Model
         if (! empty($search = $request->get('name'))) {
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
         if (! empty($search = $request->get('country_id'))) {

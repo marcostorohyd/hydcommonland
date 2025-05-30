@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\DemoCaseStudy;
 use App\Condition;
 use App\Country;
-use App\Sector;
-use App\Status;
-use App\Value;
+use App\DemoCaseStudy;
 use App\Http\Controllers\Controller;
 use App\Notifications\DemoCaseStudyStoreNotification;
+use App\Sector;
+use App\Status;
 use App\User;
+use App\Value;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -29,13 +29,13 @@ class DemoCaseStudyController extends Controller
             'name' => $request->post('name'),
             'country_id' => $request->post('country_id'),
             'sector_id' => $request->post('sector_id'),
-            'status_id' => $request->post('status_id')
+            'status_id' => $request->post('status_id'),
         ];
 
         $data = [
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id')
+            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id'),
         ];
 
         return view('backend.demo.index', compact('data', 'request'));
@@ -44,7 +44,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -79,7 +78,7 @@ class DemoCaseStudyController extends Controller
             'conditions' => Condition::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'values' => Value::all()->pluck('name', 'id')
+            'values' => Value::all()->pluck('name', 'id'),
         ];
 
         return view('backend.demo.create', compact('data'));
@@ -88,7 +87,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -113,7 +111,7 @@ class DemoCaseStudyController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -122,7 +120,7 @@ class DemoCaseStudyController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -165,7 +163,7 @@ class DemoCaseStudyController extends Controller
             Storage::move('public/upload/'.basename($request->image), $target);
         }
 
-        if (!$user->isAdmin() && $admins = User::admin()->get()) {
+        if (! $user->isAdmin() && $admins = User::admin()->get()) {
             foreach ($admins as $admin) {
                 try {
                     $admin->notify(new DemoCaseStudyStoreNotification($demo));
@@ -176,13 +174,13 @@ class DemoCaseStudyController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha creado el caso demostrativo correctamente.'));
+
         return redirect()->route('backend.demo.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function show(DemoCaseStudy $demo)
@@ -193,7 +191,7 @@ class DemoCaseStudyController extends Controller
             'conditions' => Condition::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'values' => Value::all()->pluck('name', 'id')
+            'values' => Value::all()->pluck('name', 'id'),
         ];
 
         return view('backend.demo.show', compact('demo', 'data'));
@@ -202,7 +200,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function edit(DemoCaseStudy $demo)
@@ -213,7 +210,7 @@ class DemoCaseStudyController extends Controller
             'conditions' => Condition::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
-            'values' => Value::all()->pluck('name', 'id')
+            'values' => Value::all()->pluck('name', 'id'),
         ];
 
         return view('backend.demo.edit', compact('demo', 'data'));
@@ -222,8 +219,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, DemoCaseStudy $demo)
@@ -248,7 +243,7 @@ class DemoCaseStudyController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -257,7 +252,7 @@ class DemoCaseStudyController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -295,13 +290,13 @@ class DemoCaseStudyController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha actualizado el caso demostrativo correctamente.'));
+
         return redirect()->route('backend.demo.edit', $demo->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function destroy(DemoCaseStudy $demo)
@@ -318,7 +313,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Approve the specified resource.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function approve(DemoCaseStudy $demo)
@@ -334,7 +328,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Refuse the specified resource.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function refuse(DemoCaseStudy $demo)

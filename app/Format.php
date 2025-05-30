@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dimsav\Translatable\Translatable;
 
 class Format extends Model
 {
@@ -62,7 +62,7 @@ class Format extends Model
         'color',
         'media_collection',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**

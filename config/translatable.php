@@ -15,7 +15,7 @@ return [
         'es' => [
             // 'MX', // mexican spanish
             // 'CO', // colombian spanish
-            'ES'
+            'ES',
         ],
         'fr',
     ],

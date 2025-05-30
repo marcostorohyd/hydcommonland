@@ -1,9 +1,9 @@
 <?php
 
+use App\Status;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
-use App\Status;
 
 class UsersTableSeeder extends Seeder
 {
@@ -19,18 +19,18 @@ class UsersTableSeeder extends Seeder
                 'email' => 'info@antytec.com',
                 'password' => bcrypt('password'),
                 'is_admin' => 1,
-                'approved_at' => now()
+                'approved_at' => now(),
             ], [
                 'email' => 'hola@colectivoverbena.info',
                 'password' => bcrypt('hola18'),
                 'is_admin' => 1,
-                'approved_at' => now()
+                'approved_at' => now(),
             ], [
                 'email' => 'info@commonlandsnet.org',
                 'password' => bcrypt('common18'),
                 'is_admin' => 1,
-                'approved_at' => now()
-            ]
+                'approved_at' => now(),
+            ],
         ]);
 
         factory(App\User::class, 50)->create()->each(function ($user) {
@@ -53,6 +53,6 @@ class UsersTableSeeder extends Seeder
             // Sectors
             $ids = $faker->randomElements(range(1, 6), rand(1, 6));
             $directory->sectors()->sync($ids);
-        };
+        }
     }
 }

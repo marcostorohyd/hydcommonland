@@ -30,25 +30,23 @@ class Config extends Model
         'name',
         'value',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
      * Get data by locale
      *
-     * @param string $name
-     * @param string $locale
      * @return string
      */
-    public static function getByLocale(string $name, string $locale = null)
+    public static function getByLocale(string $name, ?string $locale = null)
     {
         if (is_null($locale)) {
             $locale = locale();
         }
 
-        $data = self::where('name', 'like', $name . '_' . $locale)
-                    ->pluck('value')
-                    ->all();
+        $data = self::where('name', 'like', $name.'_'.$locale)
+            ->pluck('value')
+            ->all();
 
         if (empty($data)) {
             $fallback = config('app.fallback_locale');

@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\DemoCaseStudy;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DemoCaseStudyPolicy
@@ -12,7 +12,7 @@ class DemoCaseStudyPolicy
 
     /**
      * @param  \App\User  $user
-     * @param  mixed      $ability
+     * @param  mixed  $ability
      * @return mixed
      */
     public function before($user, $ability)
@@ -25,8 +25,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can view the demo case study.
      *
-     * @param  \App\User  $user
-     * @param  \App\DemoCaseStudy  $demoCaseStudy
      * @return mixed
      */
     public function view(User $user, DemoCaseStudy $demoCaseStudy)
@@ -37,7 +35,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can create demo case studies.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,8 +45,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can update the demo case study.
      *
-     * @param  \App\User  $user
-     * @param  \App\DemoCaseStudy  $demoCaseStudy
      * @return mixed
      */
     public function update(User $user, DemoCaseStudy $demoCaseStudy)
@@ -60,8 +55,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can delete the demo case study.
      *
-     * @param  \App\User  $user
-     * @param  \App\DemoCaseStudy  $demoCaseStudy
      * @return mixed
      */
     public function delete(User $user, DemoCaseStudy $demoCaseStudy)
@@ -72,8 +65,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can restore the demo case study.
      *
-     * @param  \App\User  $user
-     * @param  \App\DemoCaseStudy  $demoCaseStudy
      * @return mixed
      */
     public function restore(User $user, DemoCaseStudy $demoCaseStudy)
@@ -84,8 +75,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can permanently delete the demo case study.
      *
-     * @param  \App\User  $user
-     * @param  \App\DemoCaseStudy  $demoCaseStudy
      * @return mixed
      */
     public function forceDelete(User $user, DemoCaseStudy $demoCaseStudy)
@@ -96,7 +85,6 @@ class DemoCaseStudyPolicy
     /**
      * Determine whether the user can update or delete events.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function updateDelete(User $user)

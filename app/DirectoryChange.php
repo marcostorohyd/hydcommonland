@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Dimsav\Translatable\Translatable;
 
 class DirectoryChange extends Model
 {
@@ -121,13 +121,13 @@ class DirectoryChange extends Model
         $address[] = $this->zipcode;
         $address[] = $this->city;
 
-        return implode(' ', $address) . ' - ' . $this->country->name;
+        return implode(' ', $address).' - '.$this->country->name;
     }
 
     /**
      * Check if it has surface
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSurface()
     {
@@ -170,14 +170,14 @@ class DirectoryChange extends Model
     /**
      * Has social attributes.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSocialAttributes()
     {
         $socialAttributes = self::socialAttributes();
 
         foreach ($socialAttributes as $item) {
-            if (!empty($this->{$item})) {
+            if (! empty($this->{$item})) {
                 return true;
             }
         }

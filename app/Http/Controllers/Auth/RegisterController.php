@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Directory;
-use App\Status;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Notifications\NewUser;
+use App\Status;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Notifications\NewUser;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -75,7 +75,6 @@ class RegisterController extends Controller
     /**
      * Handle a registration request for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
@@ -98,7 +97,6 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -146,19 +144,19 @@ class RegisterController extends Controller
             'accept_advertising' => 'nullable|boolean',
         ];
 
-        if (\App\Entity::PERSON == $data['entity_id']) {
+        if ($data['entity_id'] == \App\Entity::PERSON) {
             $data['contact_name'] = null;
             $data['contact_email'] = null;
             $data['contact_phone'] = null;
         }
 
         $data['partners'] = in_array($data['entity_id'], [6]) ? $data['partners'] : null;
-        $data['members'] = in_array($data['entity_id'], [4,5,7]) ? $data['members'] : null;
+        $data['members'] = in_array($data['entity_id'], [4, 5, 7]) ? $data['members'] : null;
         $data['represented'] = in_array($data['entity_id'], [8]) ? $data['represented'] : null;
-        $data['surface'] = in_array($data['entity_id'], [4,8]) ? $data['surface'] : null;
+        $data['surface'] = in_array($data['entity_id'], [4, 8]) ? $data['surface'] : null;
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         return Validator::make($data, $rules, [
@@ -170,7 +168,6 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return \App\User
      */
     protected function create(array $data)
@@ -187,7 +184,7 @@ class RegisterController extends Controller
             $filename = null;
             if (! empty($data['image'])) {
                 $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-                $filename = 'photo.' . $extension;
+                $filename = 'photo.'.$extension;
             }
 
             // Directory
@@ -211,7 +208,7 @@ class RegisterController extends Controller
                 'represented' => $data['represented'],
                 'surface' => $data['surface'],
                 'image' => $filename,
-                'status_id' => Status::PENDING
+                'status_id' => Status::PENDING,
             ];
 
             // Locales
@@ -219,18 +216,18 @@ class RegisterController extends Controller
                 $directory["description:{$lang}"] = $data["{$lang}"]['description'];
             }
 
-            if (empty($directory["description:en"])) {
-                if (empty($directory["description:es-ES"])) {
-                    $directory["description:en"] = $directory["description:fr"];
+            if (empty($directory['description:en'])) {
+                if (empty($directory['description:es-ES'])) {
+                    $directory['description:en'] = $directory['description:fr'];
                 } else {
-                    $directory["description:en"] = $directory["description:es-ES"];
+                    $directory['description:en'] = $directory['description:es-ES'];
                 }
             }
-            if (empty($directory["description:es-ES"])) {
-                $directory["description:es-ES"] = $directory["description:en"];
+            if (empty($directory['description:es-ES'])) {
+                $directory['description:es-ES'] = $directory['description:en'];
             }
-            if (empty($directory["description:fr"])) {
-                $directory["description:fr"] = $directory["description:en"];
+            if (empty($directory['description:fr'])) {
+                $directory['description:fr'] = $directory['description:en'];
             }
 
             $directory = Directory::create($directory);

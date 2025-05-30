@@ -67,7 +67,7 @@ Route::post('demo/list', 'DemoCaseStudyController@list')->name('demo.list');
 
 // Media library
 Route::resource('media', 'MediaLibraryController')->only(['index', 'show'])->parameters([
-    'media' => 'media'
+    'media' => 'media',
 ]);
 Route::post('media/list', 'MediaLibraryController@list')->name('media.list');
 Route::get('media/download/{media}', 'MediaLibraryController@download')->name('media.download');
@@ -123,7 +123,7 @@ Route::middleware('auth')->prefix('backend')->namespace('Backend')->name('backen
 
     // Media library
     Route::resource('media', 'MediaLibraryController')->parameters([
-        'media' => 'media'
+        'media' => 'media',
     ]);
     Route::get('media/{media}/approve', 'MediaLibraryController@approve')->name('media.approve');
     Route::get('media/{media}/refuse', 'MediaLibraryController@refuse')->name('media.refuse');
@@ -135,7 +135,7 @@ Route::middleware('auth')->prefix('backend')->namespace('Backend')->name('backen
         Route::post('country/datatable', 'CountryController@datatable')->name('country.datatable');
         Route::match(['GET', 'POST'], 'country/search', 'CountryController@search')->name('country.search');
         Route::get('country/{country}/unassign-contact', 'CountryController@unassignContact')
-             ->name('country.unassign_contact');
+            ->name('country.unassign_contact');
 
         // About
         Route::get('about', 'AboutController@edit')->name('about.edit');
@@ -161,7 +161,6 @@ Route::post('tool/map-search', 'ToolController@mapSearch')->name('tool.map_searc
 //         $directory->save();
 //     }
 // });
-
 
 // Route::get('queue', function () {
 //     $user = \App\User::where('email', 'example@colectivoverbena.info')->first();

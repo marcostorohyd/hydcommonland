@@ -1,8 +1,8 @@
 <?php
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 
 class CountriesTableSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class CountriesTableSeeder extends Seeder
         $faker = Faker::create();
 
         $countries = [];
-        for ($i=1; $i < 75; $i++) {
+        for ($i = 1; $i < 75; $i++) {
             $countries[] = ['id' => $i, 'contact_id' => $faker->numberBetween(1, 50)];
         }
 
@@ -96,15 +96,15 @@ class CountriesTableSeeder extends Seeder
             'Libia',
             'Marruecos',
             'Sudán',
-            'Túnez'
+            'Túnez',
         ];
 
         $offset = 0;
         $countries_translations = [];
-        for ($i=1; $i < 75; $i++) {
-            $countries_translations[] = ['id' => $i, 'name' => $countries[$i-1], 'locale' => 'es-ES', 'country_id' => $i];
+        for ($i = 1; $i < 75; $i++) {
+            $countries_translations[] = ['id' => $i, 'name' => $countries[$i - 1], 'locale' => 'es-ES', 'country_id' => $i];
         }
-        $offset = $i-1;
+        $offset = $i - 1;
 
         DB::table('country_translations')->insert($countries_translations);
 
@@ -182,14 +182,14 @@ class CountriesTableSeeder extends Seeder
             'Libya',
             'Morocco',
             'Sudan',
-            'Tunisia'
+            'Tunisia',
         ];
 
         $countries_translations = [];
-        for ($i=1; $i < 75; $i++) {
-            $countries_translations[] = ['id' => $i + $offset, 'name' => $countries[$i-1], 'locale' => 'en', 'country_id' => $i];
+        for ($i = 1; $i < 75; $i++) {
+            $countries_translations[] = ['id' => $i + $offset, 'name' => $countries[$i - 1], 'locale' => 'en', 'country_id' => $i];
         }
-        $offset += $i-1;
+        $offset += $i - 1;
 
         DB::table('country_translations')->insert($countries_translations);
 
@@ -267,12 +267,12 @@ class CountriesTableSeeder extends Seeder
             'Libye',
             'Maroc',
             'Soudan',
-            'Tunisie'
+            'Tunisie',
         ];
 
         $countries_translations = [];
-        for ($i=1; $i < 75; $i++) {
-            $countries_translations[] = ['id' => $i + $offset, 'name' => $countries[$i-1], 'locale' => 'fr', 'country_id' => $i];
+        for ($i = 1; $i < 75; $i++) {
+            $countries_translations[] = ['id' => $i + $offset, 'name' => $countries[$i - 1], 'locale' => 'fr', 'country_id' => $i];
         }
 
         DB::table('country_translations')->insert($countries_translations);

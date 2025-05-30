@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\backend;
 
 use App\Country;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Yajra\DataTables\DataTables;
 use App\Directory;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CountryController extends Controller
 {
@@ -20,11 +20,11 @@ class CountryController extends Controller
     {
         $request = [
             'name' => $request->post('name'),
-            'contact_id' => $request->post('contact_id')
+            'contact_id' => $request->post('contact_id'),
         ];
 
         $data = [
-            'directories' => []
+            'directories' => [],
         ];
 
         return view('backend.country.index', compact('data', 'request'));
@@ -33,7 +33,6 @@ class CountryController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -72,7 +71,6 @@ class CountryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -92,13 +90,13 @@ class CountryController extends Controller
         Country::create($data);
 
         session()->flash('alert-success', 'Se ha creado el país correctamente.');
+
         return redirect()->route('backend.country.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function edit(Country $country)
@@ -117,8 +115,6 @@ class CountryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Country  $country
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Country $country)
@@ -138,13 +134,13 @@ class CountryController extends Controller
         $country->save();
 
         session()->flash('alert-success', 'Se ha actualizado el país correctamente.');
+
         return redirect()->route('backend.country.edit', $country->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Country  $country
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Country $country)
@@ -163,7 +159,6 @@ class CountryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Country  $country
      * @return \Illuminate\Http\JsonResponse
      */
     public function unassignContact(Country $country)

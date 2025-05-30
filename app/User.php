@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -32,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'accept_lopd', 'accept_share', 'accept_advertising'
+        'name', 'email', 'password', 'accept_lopd', 'accept_share', 'accept_advertising',
     ];
 
     /**
@@ -54,7 +53,7 @@ class User extends Authenticatable
 
     /**
      * Get the directory record associated with the user.
-    */
+     */
     public function directory()
     {
         return $this->hasOne(\App\Directory::class);
@@ -87,7 +86,7 @@ class User extends Authenticatable
     /**
      * Scope a query to only include admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeAdmin($query)

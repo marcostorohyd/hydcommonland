@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\News;
 use App\Country;
+use App\Http\Controllers\Controller;
+use App\News;
 use App\Sector;
 use App\Status;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,13 +25,13 @@ class NewsController extends Controller
             'name' => $request->post('name'),
             'country_id' => $request->post('country_id'),
             'sector_id' => $request->post('sector_id'),
-            'status_id' => $request->post('status_id')
+            'status_id' => $request->post('status_id'),
         ];
 
         $data = [
             'sectors' => Sector::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
-            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id')
+            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id'),
         ];
 
         return view('backend.news.index', compact('data', 'request'));
@@ -40,7 +40,6 @@ class NewsController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -72,7 +71,7 @@ class NewsController extends Controller
 
         $data = [
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.news.create', compact('data'));
@@ -81,7 +80,6 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -100,7 +98,7 @@ class NewsController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -109,7 +107,7 @@ class NewsController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -152,13 +150,13 @@ class NewsController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha creado la noticia correctamente.'));
+
         return redirect()->route('backend.news.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function show(News $news)
@@ -167,7 +165,7 @@ class NewsController extends Controller
 
         $data = [
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.news.show', compact('news', 'data'));
@@ -176,7 +174,6 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function edit(News $news)
@@ -185,7 +182,7 @@ class NewsController extends Controller
 
         $data = [
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.news.edit', compact('news', 'data'));
@@ -194,8 +191,6 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, News $news)
@@ -214,7 +209,7 @@ class NewsController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -223,7 +218,7 @@ class NewsController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -260,13 +255,13 @@ class NewsController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha actualizado la noticia correctamente.'));
+
         return redirect()->route('backend.news.edit', $news->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function destroy(News $news)
@@ -283,7 +278,6 @@ class NewsController extends Controller
     /**
      * Approve the specified resource.
      *
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function approve(News $news)
@@ -299,7 +293,6 @@ class NewsController extends Controller
     /**
      * Refuse the specified resource.
      *
-     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
     public function refuse(News $news)

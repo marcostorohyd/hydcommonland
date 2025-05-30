@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Directory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\URL;
 
 class DirectoryController extends Controller
 {
@@ -20,11 +20,11 @@ class DirectoryController extends Controller
         $this->validate($request, [
             'entity_id.*' => 'nullable|integer',
             'country_id.*' => 'nullable|integer',
-            'sector_id.*' => 'nullable|integer'
+            'sector_id.*' => 'nullable|integer',
         ]);
 
         $query = Directory::filter(Directory::query(), $request)
-                          ->orderBy('name');
+            ->orderBy('name');
 
         // session(['filter_directory' => $request->only('entity_id', 'country_id', 'sector_id')]);
         // session(['filter_directory' => $query->pluck('id')->implode(',')]);
@@ -32,7 +32,7 @@ class DirectoryController extends Controller
             'ids' => $query->pluck('id')->implode(','),
             'entity_id' => $request->post('entity_id'),
             'country_id' => $request->post('country_id'),
-            'sector_id' => $request->post('sector_id')
+            'sector_id' => $request->post('sector_id'),
         ]]);
 
         $directories = $query->paginate(24);
@@ -50,7 +50,6 @@ class DirectoryController extends Controller
      * Display the specified resource.
      *
      * @param  Illuminate\Http\Request
-     * @param  \App\Directory  $directory
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, Directory $directory)
@@ -65,14 +64,14 @@ class DirectoryController extends Controller
             if (in_array(app('router')->getRoutes()->match(
                 app('request')->create(URL::previous())
             )->getName(), ['home', 'directory.show'])) {
-                for ($i=0; $i < count($filter); $i++) {
+                for ($i = 0; $i < count($filter); $i++) {
                     if ($i) {
-                        $paginate['prev'] = $filter[$i-1];
+                        $paginate['prev'] = $filter[$i - 1];
                     }
 
                     if ($directory->id == $filter[$i]) {
-                        if (! empty($filter[$i+1])) {
-                            $paginate['next'] = $filter[$i+1];
+                        if (! empty($filter[$i + 1])) {
+                            $paginate['next'] = $filter[$i + 1];
                         }
                         break;
                     }
@@ -96,21 +95,21 @@ class DirectoryController extends Controller
         $this->validate($request, [
             'entity_id.*' => 'nullable|integer',
             'country_id.*' => 'nullable|integer',
-            'sector_id.*' => 'nullable|integer'
+            'sector_id.*' => 'nullable|integer',
         ]);
 
         $directories = Directory::filter(Directory::query(), $request)
-                                ->whereNotNull('latitude')
-                                ->whereNotNull('longitude')
-                                ->orderBy('name')
-                                ->with('entity')
-                                ->get();
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->orderBy('name')
+            ->with('entity')
+            ->get();
 
         session(['filter_directory' => [
             'ids' => $directories->pluck('id')->implode(','),
             'entity_id' => $request->post('entity_id'),
             'country_id' => $request->post('country_id'),
-            'sector_id' => $request->post('sector_id')
+            'sector_id' => $request->post('sector_id'),
         ]]);
 
         $tmp = [];
@@ -121,8 +120,8 @@ class DirectoryController extends Controller
                     'name' => $directory->name,
                     'entity' => [
                         'id' => $directory->entity->id,
-                        'name' => $directory->entity->name
-                    ]
+                        'name' => $directory->entity->name,
+                    ],
                 ];
             } else {
                 $tmp["{$directory->latitude},{$directory->longitude}"] = [
@@ -134,10 +133,10 @@ class DirectoryController extends Controller
                             'name' => $directory->name,
                             'entity' => [
                                 'id' => $directory->entity->id,
-                                'name' => $directory->entity->name
-                            ]
-                        ]
-                    ]
+                                'name' => $directory->entity->name,
+                            ],
+                        ],
+                    ],
                 ];
             }
         }

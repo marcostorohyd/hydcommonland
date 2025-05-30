@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Country;
 use App\Event;
 use App\EventAssistance;
 use App\EventType;
-use App\Country;
+use App\Http\Controllers\Controller;
 use App\Sector;
 use App\Status;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,14 +28,14 @@ class EventController extends Controller
             'type_id' => $request->post('type_id'),
             'country_id' => $request->post('country_id'),
             'sector_id' => $request->post('sector_id'),
-            'status_id' => $request->post('status_id')
+            'status_id' => $request->post('status_id'),
         ];
 
         $data = [
             'types' => EventType::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
-            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id')
+            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id'),
         ];
 
         return view('backend.event.index', compact('data', 'request'));
@@ -44,7 +44,6 @@ class EventController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -78,7 +77,7 @@ class EventController extends Controller
             'assistances' => EventAssistance::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'types' => EventType::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.event.create', compact('data'));
@@ -87,7 +86,6 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -112,7 +110,7 @@ class EventController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -121,7 +119,7 @@ class EventController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -164,13 +162,13 @@ class EventController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha creado el evento correctamente.'));
+
         return redirect()->route('backend.event.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function show(Event $event)
@@ -181,7 +179,7 @@ class EventController extends Controller
             'assistances' => EventAssistance::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'types' => EventType::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.event.show', compact('event', 'data'));
@@ -190,7 +188,6 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
@@ -201,7 +198,7 @@ class EventController extends Controller
             'assistances' => EventAssistance::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
             'types' => EventType::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.event.edit', compact('event', 'data'));
@@ -210,8 +207,6 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Event $event)
@@ -236,7 +231,7 @@ class EventController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $this->validate($request, $rules);
@@ -245,7 +240,7 @@ class EventController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -282,13 +277,13 @@ class EventController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha actualizado el evento correctamente.'));
+
         return redirect()->route('backend.event.edit', $event->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event)
@@ -305,7 +300,6 @@ class EventController extends Controller
     /**
      * Approve the specified resource.
      *
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function approve(Event $event)
@@ -321,7 +315,6 @@ class EventController extends Controller
     /**
      * Refuse the specified resource.
      *
-     * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function refuse(Event $event)
