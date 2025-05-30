@@ -2,8 +2,8 @@
 
 namespace App\Generators;
 
-use Illuminate\Support\Str;
 use App\Config;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
