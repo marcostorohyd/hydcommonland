@@ -8,7 +8,6 @@ Breadcrumbs::for('home', function ($trail) {
     $trail->push(__('Inicio'), route('home'));
 });
 
-
 // Backend
 
 // Dashboard
@@ -45,7 +44,7 @@ Breadcrumbs::for('backend.directory.create', function ($trail) {
 
 Breadcrumbs::for('backend.directory.show', function ($trail, $directory) {
     $trail->parent('backend.dashboard');
-    $trail->push(__('Perfil') . " ({$directory->name})");
+    $trail->push(__('Perfil')." ({$directory->name})");
 });
 
 Breadcrumbs::for('backend.directory.edit', function ($trail, $directory) {
@@ -72,12 +71,12 @@ Breadcrumbs::for('backend.event.create', function ($trail) {
 
 Breadcrumbs::for('backend.event.show', function ($trail, $event) {
     $trail->parent('backend.dashboard');
-    $trail->push(__('Evento') . " ({$event->name})");
+    $trail->push(__('Evento')." ({$event->name})");
 });
 
 Breadcrumbs::for('backend.event.edit', function ($trail, $event) {
     $trail->parent('backend.event.index');
-    $trail->push(__('Editar evento') . " ({$event->name})");
+    $trail->push(__('Editar evento')." ({$event->name})");
 });
 
 // News
@@ -93,12 +92,12 @@ Breadcrumbs::for('backend.news.create', function ($trail) {
 
 Breadcrumbs::for('backend.news.show', function ($trail, $news) {
     $trail->parent('backend.dashboard');
-    $trail->push(__('Noticia') . " ({$news->name})");
+    $trail->push(__('Noticia')." ({$news->name})");
 });
 
 Breadcrumbs::for('backend.news.edit', function ($trail, $news) {
     $trail->parent('backend.news.index');
-    $trail->push(__('Editar noticia') . " ({$news->name})");
+    $trail->push(__('Editar noticia')." ({$news->name})");
 });
 
 // Demo case study
@@ -114,12 +113,12 @@ Breadcrumbs::for('backend.demo.create', function ($trail) {
 
 Breadcrumbs::for('backend.demo.show', function ($trail, $demo) {
     $trail->parent('backend.dashboard');
-    $trail->push(__('Caso demostrativo') . " ({$demo->name})");
+    $trail->push(__('Caso demostrativo')." ({$demo->name})");
 });
 
 Breadcrumbs::for('backend.demo.edit', function ($trail, $demo) {
     $trail->parent('backend.demo.index');
-    $trail->push(__('Editar caso demostrativo') . " ({$demo->name})");
+    $trail->push(__('Editar caso demostrativo')." ({$demo->name})");
 });
 
 // Media library
@@ -135,12 +134,12 @@ Breadcrumbs::for('backend.media.create', function ($trail) {
 
 Breadcrumbs::for('backend.media.show', function ($trail, $media) {
     $trail->parent('backend.dashboard');
-    $trail->push(__('Mediateca') . " ({$media->name})");
+    $trail->push(__('Mediateca')." ({$media->name})");
 });
 
 Breadcrumbs::for('backend.media.edit', function ($trail, $media) {
     $trail->parent('backend.media.index');
-    $trail->push(__('Editar mediateca') . " ({$media->name})");
+    $trail->push(__('Editar mediateca')." ({$media->name})");
 });
 
 // Country
@@ -161,7 +160,7 @@ Breadcrumbs::for('backend.country.create', function ($trail) {
 
 Breadcrumbs::for('backend.country.edit', function ($trail, $country) {
     $trail->parent('backend.country.index');
-    $trail->push(__('Editar país') . " ({$country->name})");
+    $trail->push(__('Editar país')." ({$country->name})");
 });
 
 // About

@@ -2,17 +2,17 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class MediaLibrary extends Model implements HasMedia
 {
-    use SoftDeletes;
     use HasMediaTrait;
+    use SoftDeletes;
 
     /**
      * Allowed file types.
@@ -116,7 +116,7 @@ class MediaLibrary extends Model implements HasMedia
         'length',
         'status_id',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
@@ -125,7 +125,7 @@ class MediaLibrary extends Model implements HasMedia
      * @var array
      */
     protected $casts = [
-        'date' => 'date'
+        'date' => 'date',
     ];
 
     /**
@@ -138,10 +138,10 @@ class MediaLibrary extends Model implements HasMedia
         parent::boot();
 
         $route = request()->route();
-        if (empty($route) || '/backend' !== $route->getPrefix()) {
+        if (empty($route) || $route->getPrefix() !== '/backend') {
             static::addGlobalScope('approved', function (Builder $builder) {
                 $builder->date()
-                        ->approved();
+                    ->approved();
             });
         } else {
             $user = auth()->user();
@@ -156,7 +156,7 @@ class MediaLibrary extends Model implements HasMedia
     /**
      * Scope a query to only include admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeApproved($query)
@@ -167,7 +167,7 @@ class MediaLibrary extends Model implements HasMedia
     /**
      * Scope a query to order by date.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeDate($query)
@@ -178,7 +178,7 @@ class MediaLibrary extends Model implements HasMedia
     /**
      * Scope a query to only include no admin users.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeMe($query)
@@ -189,8 +189,6 @@ class MediaLibrary extends Model implements HasMedia
     /**
      * Query
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function filter(Builder $query, \Illuminate\Http\Request $request)
@@ -198,8 +196,8 @@ class MediaLibrary extends Model implements HasMedia
         if (! empty($search = $request->get('name'))) {
             $query->where(function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('author', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('author', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
         if (! empty($search = $request->get('country_id'))) {
@@ -248,7 +246,7 @@ class MediaLibrary extends Model implements HasMedia
 
     /**
      * Get the country that owns the media library.
-  */
+     */
     public function country()
     {
         return $this->belongsTo(\App\Country::class);
@@ -289,15 +287,14 @@ class MediaLibrary extends Model implements HasMedia
     /**
      * Get info
      *
-     * @param \App\Media $media
      * @return string
      */
-    public function info(Media $media = null)
+    public function info(?Media $media = null)
     {
         switch ($this->format_id) {
             case Format::VIDEO:
             case Format::AUDIO:
-                return $this->length ? $this->length . '´' : '';
+                return $this->length ? $this->length.'´' : '';
                 break;
 
             case Format::GALLERY:
@@ -310,6 +307,7 @@ class MediaLibrary extends Model implements HasMedia
 
             case Format::PRESENTATION:
                 $media = $this->getFirstMedia($this->format->media_collection);
+
                 return $media->human_readable_size ?? '';
                 break;
 
@@ -318,7 +316,7 @@ class MediaLibrary extends Model implements HasMedia
                     return '';
                 }
 
-                return $this->length . ' ' . ($this->length > 1 ? __('messages.páginas') : __('messages.página'));
+                return $this->length.' '.($this->length > 1 ? __('messages.páginas') : __('messages.página'));
                 break;
 
             default:

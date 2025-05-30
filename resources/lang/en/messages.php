@@ -3,6 +3,6 @@
 return [
 
     'página' => 'page',
-    'páginas' => 'pages'
+    'páginas' => 'pages',
 
 ];

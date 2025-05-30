@@ -2,11 +2,10 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use App\Directory;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class NewUser extends Notification
 {
@@ -49,14 +48,14 @@ class NewUser extends Notification
     public function toMail($notifiable)
     {
         $directory = Directory::withoutGlobalScopes()
-                              ->where('user_id', $this->user->id)
-                              ->first();
+            ->where('user_id', $this->user->id)
+            ->first();
 
         return (new MailMessage)
-                    ->subject(__('Usuario/a pendiente de aprobación'))
-                    ->line(__('Un/a nuevo/a usuario/a se ha registrado'))
-                    ->from(config('mail.from.address'), config('mail.from.name'))
-                    ->action(__('Ver datos de usuario'), route('backend.directory.edit', $directory->id));
+            ->subject(__('Usuario/a pendiente de aprobación'))
+            ->line(__('Un/a nuevo/a usuario/a se ha registrado'))
+            ->from(config('mail.from.address'), config('mail.from.name'))
+            ->action(__('Ver datos de usuario'), route('backend.directory.edit', $directory->id));
     }
 
     /**

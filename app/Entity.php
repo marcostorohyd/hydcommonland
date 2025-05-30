@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dimsav\Translatable\Translatable;
 
 class Entity extends Model
 {
@@ -40,7 +40,7 @@ class Entity extends Model
      */
     protected $fillable = [
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**

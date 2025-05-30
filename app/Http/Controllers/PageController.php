@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Collection;
-
 class PageController extends Controller
 {
     /**
@@ -13,7 +11,7 @@ class PageController extends Controller
      */
     public function legalNotice()
     {
-        return view('page.legal-notice.' . strtolower(locale(true)));
+        return view('page.legal-notice.'.strtolower(locale(true)));
     }
 
     /**
@@ -30,13 +28,13 @@ class PageController extends Controller
             'necessary' => __('necesarias'),
         ];
 
-        if (empty(!$consent)) {
+        if (empty(! $consent)) {
             $types = array_map(function ($item) use ($map) {
                 return $map[$item];
             }, $consent['level']);
         }
 
-        return view('page.cookies-policy.' . strtolower(locale(true)), compact('consent', 'types'));
+        return view('page.cookies-policy.'.strtolower(locale(true)), compact('consent', 'types'));
     }
 
     /**
@@ -46,7 +44,7 @@ class PageController extends Controller
      */
     public function privacyPolicy()
     {
-        return view('page.privacy-policy.' . strtolower(locale(true)));
+        return view('page.privacy-policy.'.strtolower(locale(true)));
     }
 
     /**
@@ -56,6 +54,6 @@ class PageController extends Controller
      */
     public function terms()
     {
-        return view('page.terms.' . strtolower(locale(true)));
+        return view('page.terms.'.strtolower(locale(true)));
     }
 }

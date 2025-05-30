@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Spatie\MediaLibrary\Models\Media as BaseMedia;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
 
 class Media extends BaseMedia
 {
@@ -52,7 +52,6 @@ class Media extends BaseMedia
     /**
      * Return humanize format
      *
-     * @param string $type
      * @return void
      */
     public static function humanize(string $type)

@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dimsav\Translatable\Translatable;
 
 class Sector extends Model
 {
@@ -25,7 +25,7 @@ class Sector extends Model
      */
     protected $fillable = [
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
@@ -37,7 +37,7 @@ class Sector extends Model
 
     /**
      * The directories that belong to the sector.
-      */
+     */
     public function directories()
     {
         return $this->belongsToMany(\App\Directory::class);

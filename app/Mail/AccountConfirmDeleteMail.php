@@ -3,9 +3,9 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AccountConfirmDeleteMail extends Mailable implements ShouldQueue
 {
@@ -28,7 +28,7 @@ class AccountConfirmDeleteMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->markdown('email.account-confirm-delete.' . strtolower(locale(true)))
+        return $this->markdown('email.account-confirm-delete.'.strtolower(locale(true)))
             ->subject(__('Su cuenta de usuario/a ha sido borrada'));
     }
 }

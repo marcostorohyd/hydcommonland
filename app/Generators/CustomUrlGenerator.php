@@ -2,19 +2,20 @@
 
 namespace App\Generators;
 
-use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
-use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use App\Config;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
+use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
 class CustomUrlGenerator extends LocalUrlGenerator
 {
     protected function getBaseMediaDirectoryUrl(): string
     {
-        if ($diskUrl = Config::url() . '/storage') {
+        if ($diskUrl = Config::url().'/storage') {
             return $diskUrl;
         }
 
-        if (! starts_with($this->getStoragePath(), public_path())) {
+        if (! Str::startsWith($this->getStoragePath(), public_path())) {
             throw UrlCannotBeDetermined::mediaNotPubliclyAvailable($this->getStoragePath(), public_path());
         }
 
@@ -24,13 +25,12 @@ class CustomUrlGenerator extends LocalUrlGenerator
     /**
      * Get the url for a media item.
      *
-     * @return string
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
      */
     public function getUrl(): string
     {
-        if ('local' == $this->media->disk) {
+        if ($this->media->disk == 'local') {
             $url = Config::url().'/image/'.$this->media->id;
         } else {
             $url = $this->getBaseMediaDirectoryUrl().'/'.$this->getPathRelativeToRoot();

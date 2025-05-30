@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use App\Value;
+use Illuminate\Database\Seeder;
 
 class DemoCaseStudiesTableSeeder extends Seeder
 {
@@ -33,6 +32,6 @@ class DemoCaseStudiesTableSeeder extends Seeder
             // Values
             $ids = $faker->randomElements(range(1, 10), rand(1, 10));
             $demo->values()->sync($ids);
-        };
+        }
     }
 }

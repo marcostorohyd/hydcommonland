@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\MediaLibrary;
 use App\Country;
 use App\Format;
+use App\Http\Controllers\Controller;
+use App\MediaLibrary;
 use App\Sector;
 use App\Status;
 use App\Tag;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -28,14 +28,14 @@ class MediaLibraryController extends Controller
             'country_id' => $request->post('country_id'),
             'format_id' => $request->post('format_id'),
             'sector_id' => $request->post('sector_id'),
-            'status_id' => $request->post('status_id')
+            'status_id' => $request->post('status_id'),
         ];
 
         $data = [
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'formats' => Format::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id')
+            'statuses' => Status::whereNotIn('id', [4])->get()->pluck('name', 'id'),
         ];
 
         return view('backend.media.index', compact('data', 'request'));
@@ -44,7 +44,6 @@ class MediaLibraryController extends Controller
     /**
      * Process datatables ajax request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function datatable(Request $request)
@@ -78,14 +77,14 @@ class MediaLibraryController extends Controller
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'formats' => Format::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'tags' => Tag::all()->pluck('name', 'id')
+            'tags' => Tag::all()->pluck('name', 'id'),
         ];
 
         $files = [
             'gallery' => [],
             'presentation' => [],
             'document' => [],
-            'audio' => []
+            'audio' => [],
         ];
 
         return view('backend.media.create', compact('data', 'files'));
@@ -94,7 +93,6 @@ class MediaLibraryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -136,9 +134,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::GALLERY_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::GALLERY_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::GALLERY_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['gallery_remove'] = 'nullable';
                 $data['external'] = 0;
@@ -150,9 +148,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::PRESENTATION_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::PRESENTATION_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::PRESENTATION_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -163,9 +161,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::DOCUMENT_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::DOCUMENT_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::DOCUMENT_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -176,9 +174,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::AUDIO_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::AUDIO_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::AUDIO_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -192,7 +190,7 @@ class MediaLibraryController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -230,7 +228,7 @@ class MediaLibraryController extends Controller
                 $medias = $media->getMedia($name);
 
                 $i = 0;
-                $remove = $request->input($name . '_remove', []);
+                $remove = $request->input($name.'_remove', []);
                 $items = array_merge($request->input($name, []), $remove);
                 foreach ($items as $item) {
                     $file = basename($item);
@@ -241,11 +239,12 @@ class MediaLibraryController extends Controller
                             $m->order_column = $i + 1;
                             $m->save();
                         }
-                        ++$i;
+                        $i++;
+
                         continue;
                     }
 
-                    $path = storage_path('app/public/upload/' . $file);
+                    $path = storage_path('app/public/upload/'.$file);
                     if (! file_exists($path)) {
                         continue;
                     }
@@ -253,7 +252,7 @@ class MediaLibraryController extends Controller
                     $m = $media->addMedia($path)->toMediaCollection($name);
                     $m->order_column = $i + 1;
                     $m->save();
-                    ++$i;
+                    $i++;
                 }
             } else {
                 $media->clearMediaCollection($name);
@@ -265,13 +264,13 @@ class MediaLibraryController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha creado la mediateca correctamente.'));
+
         return redirect()->route('backend.media.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function show(MediaLibrary $media)
@@ -282,7 +281,7 @@ class MediaLibraryController extends Controller
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'formats' => Format::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'tags' => Tag::all()->pluck('name', 'id')
+            'tags' => Tag::all()->pluck('name', 'id'),
         ];
 
         return view('backend.media.show', compact('media', 'data'));
@@ -291,7 +290,6 @@ class MediaLibraryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function edit(MediaLibrary $media)
@@ -302,14 +300,14 @@ class MediaLibraryController extends Controller
             'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
             'formats' => Format::all()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'tags' => Tag::all()->pluck('name', 'id')
+            'tags' => Tag::all()->pluck('name', 'id'),
         ];
 
         $files = [
             'gallery' => [],
             'presentation' => [],
             'document' => [],
-            'audio' => []
+            'audio' => [],
         ];
 
         $name = $media->format->media_collection;
@@ -321,8 +319,6 @@ class MediaLibraryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, MediaLibrary $media)
@@ -364,9 +360,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::GALLERY_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::GALLERY_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::GALLERY_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['gallery_remove'] = 'nullable';
                 $data['external'] = 0;
@@ -378,9 +374,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::PRESENTATION_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::PRESENTATION_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::PRESENTATION_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -391,9 +387,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::DOCUMENT_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::DOCUMENT_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::DOCUMENT_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -404,9 +400,9 @@ class MediaLibraryController extends Controller
                     'array',
                     function ($attribute, $value, $fail) {
                         if (count($value) > MediaLibrary::AUDIO_MAX_FILES) {
-                            return $fail($attribute . ' should be less than or equal to ' . MediaLibrary::AUDIO_MAX_FILES);
+                            return $fail($attribute.' should be less than or equal to '.MediaLibrary::AUDIO_MAX_FILES);
                         }
-                    }
+                    },
                 ];
                 $rules['link'] = 'nullable|url|max:180|required_if:external,1';
                 break;
@@ -420,7 +416,7 @@ class MediaLibraryController extends Controller
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'image.' . $extension;
+            $data['image'] = 'image.'.$extension;
         } else {
             unset($data['image']);
         }
@@ -451,7 +447,7 @@ class MediaLibraryController extends Controller
                 $medias = $media->getMedia($name);
 
                 $i = 0;
-                $remove = $request->input($name . '_remove', []);
+                $remove = $request->input($name.'_remove', []);
                 $items = array_merge($request->input($name, []), $remove);
                 foreach ($items as $item) {
                     $file = basename($item);
@@ -462,11 +458,12 @@ class MediaLibraryController extends Controller
                             $m->order_column = $i + 1;
                             $m->save();
                         }
-                        ++$i;
+                        $i++;
+
                         continue;
                     }
 
-                    $path = storage_path('app/public/upload/' . $file);
+                    $path = storage_path('app/public/upload/'.$file);
                     if (! file_exists($path)) {
                         continue;
                     }
@@ -474,7 +471,7 @@ class MediaLibraryController extends Controller
                     $m = $media->addMedia($path)->toMediaCollection($name);
                     $m->order_column = $i + 1;
                     $m->save();
-                    ++$i;
+                    $i++;
                 }
             } else {
                 $media->clearMediaCollection($name);
@@ -486,13 +483,13 @@ class MediaLibraryController extends Controller
         }
 
         session()->flash('alert-success', __('Se ha actualizado la mediateca correctamente.'));
+
         return redirect()->route('backend.media.edit', $media->id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function destroy(MediaLibrary $media)
@@ -509,7 +506,6 @@ class MediaLibraryController extends Controller
     /**
      * Approve the specified resource.
      *
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function approve(MediaLibrary $media)
@@ -525,7 +521,6 @@ class MediaLibraryController extends Controller
     /**
      * Refuse the specified resource.
      *
-     * @param  \App\MediaLibrary  $media
      * @return \Illuminate\Http\Response
      */
     public function refuse(MediaLibrary $media)

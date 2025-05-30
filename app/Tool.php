@@ -7,7 +7,7 @@ class Tool
     /**
      * Convert data to dropzone
      *
-     * @param mixed $items
+     * @param  mixed  $items
      * @return array
      */
     public static function toDropzone($items = null)
@@ -25,7 +25,7 @@ class Tool
                 'size' => $is_collection ? $item->size : 0,
                 'type' => $is_collection ? $item->mime_type : '',
                 'serverID' => $is_collection ? $item->id : uniqid(),
-                'accepted' => true
+                'accepted' => true,
             ];
         }
 
@@ -35,13 +35,11 @@ class Tool
     /**
      * Return url
      *
-     * @param string $url
-     * @param string $mime
      * @return string
      */
     public static function mimeToUrl(string $url, string $mime)
     {
-        if (false !== strpos($mime, 'image/')) {
+        if (strpos($mime, 'image/') !== false) {
             return $url;
         }
 

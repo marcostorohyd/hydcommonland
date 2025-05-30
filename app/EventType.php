@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
 
 class EventType extends Model
 {
@@ -23,7 +23,7 @@ class EventType extends Model
      */
     protected $fillable = [
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**

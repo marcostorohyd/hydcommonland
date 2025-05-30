@@ -6,7 +6,6 @@ if (! function_exists('locale')) {
     /**
      * Get the locale
      *
-     * @param bool $humanize
      * @return mixed
      */
     function locale(bool $humanize = false)
@@ -32,12 +31,9 @@ if (! function_exists('locales')) {
     /**
      * Get the locales
      *
-     * @param bool $humanize
-     * @param string $flag
-     * @param closure $closure
      * @return array
      */
-    function locales(bool $humanize = false, string $flag = ARRAY_FILTER_USE_BOTH, Closure $closure = null)
+    function locales(bool $humanize = false, string $flag = ARRAY_FILTER_USE_BOTH, ?Closure $closure = null)
     {
         $locales = [];
 
@@ -46,7 +42,7 @@ if (! function_exists('locales')) {
                 $locales[] = $value;
             } else {
                 foreach ($value as $sub) {
-                    $locales[] = $lang . '-' . $sub;
+                    $locales[] = $lang.'-'.$sub;
                 }
             }
         }
@@ -54,7 +50,7 @@ if (! function_exists('locales')) {
         if ($humanize) {
             $locales = array_combine($locales, array_map(function ($item) {
                 $pos = strpos($item, '-');
-                if (false !== $pos) {
+                if ($pos !== false) {
                     return strtoupper(substr($item, 0, $pos));
                 } else {
                     return strtoupper($item);
@@ -62,7 +58,7 @@ if (! function_exists('locales')) {
             }, $locales));
         }
 
-        if (ARRAY_FILTER_USE_KEY == $flag) {
+        if ($flag == ARRAY_FILTER_USE_KEY) {
             $locales = array_keys($locales);
         }
 
@@ -78,8 +74,8 @@ if (! function_exists('locales_except')) {
     /**
      * Get the locales except array
      *
-     * @param mixed $except Array or String
-     * @param string $suffix
+     * @param  mixed  $except  Array or String
+     * @param  string  $suffix
      * @return array
      */
     function locales_except($lang = [], $suffix = '')
@@ -89,7 +85,7 @@ if (! function_exists('locales_except')) {
         }
 
         return array_map(function ($item) use ($suffix) {
-            return $item . $suffix;
+            return $item.$suffix;
         }, array_filter(locales(), function ($item) use ($lang) {
             return ! in_array($item, $lang);
         }));

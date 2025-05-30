@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dimsav\Translatable\Translatable;
 
 class Condition extends Model
 {
@@ -25,7 +25,7 @@ class Condition extends Model
      */
     protected $fillable = [
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**
@@ -37,7 +37,7 @@ class Condition extends Model
 
     /**
      * Get the demo case studies for the condition.
-      */
+     */
     public function demos()
     {
         return $this->hasMany(\App\DemoCaseStudy::class);

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class MediaLibrariesTableSeeder extends Seeder
 {
@@ -23,6 +23,6 @@ class MediaLibrariesTableSeeder extends Seeder
             // Tags
             $ids = $faker->randomElements(range(1, 5), rand(1, 5));
             $library->tags()->sync($ids);
-        };
+        }
     }
 }

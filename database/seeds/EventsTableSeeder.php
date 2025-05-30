@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class EventsTableSeeder extends Seeder
 {
@@ -28,6 +28,6 @@ class EventsTableSeeder extends Seeder
             // Sectors
             $ids = $faker->randomElements(range(1, 6), rand(1, 6));
             $event->sectors()->sync($ids);
-        };
+        }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Dimsav\Translatable\Translatable;
 
 class Value extends Model
 {
@@ -26,7 +26,7 @@ class Value extends Model
     protected $fillable = [
         'color',
         'created_by_id',
-        'updated_by_id'
+        'updated_by_id',
     ];
 
     /**

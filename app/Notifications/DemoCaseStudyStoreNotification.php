@@ -4,9 +4,8 @@ namespace App\Notifications;
 
 use App\DemoCaseStudy;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class DemoCaseStudyStoreNotification extends Notification
 {
@@ -22,7 +21,6 @@ class DemoCaseStudyStoreNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param  \App\DemoCaseStudy  $demo
      * @return void
      */
     public function __construct(DemoCaseStudy $demo)

@@ -5,11 +5,11 @@ namespace App\Http\Controllers\backend;
 use App\Country;
 use App\DirectoryChange;
 use App\Entity;
-use App\Sector;
 use App\Http\Controllers\Controller;
 use App\Mail\AccountConfirmDeleteMail;
 use App\Mail\AccountRequestDeleteMail;
 use App\Notifications\DirectoryChangeRequest;
+use App\Sector;
 use App\Status;
 use App\User;
 use Illuminate\Http\Request;
@@ -36,7 +36,7 @@ class AccountController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         $directoryChange = $directory->change;
@@ -59,7 +59,7 @@ class AccountController extends Controller
         $directory = $user->directory;
 
         $directoryChange = DirectoryChange::find($directory->id);
-        if (!$directoryChange) {
+        if (! $directoryChange) {
             $directory->load('sectors');
             $directoryChange = DB::transaction(function () use ($directory) {
                 $fillable = (new DirectoryChange)->getFillable();
@@ -87,7 +87,7 @@ class AccountController extends Controller
         $data = [
             'entities' => Entity::all()->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'countries' => Country::all()->sortBy('name')->pluck('name', 'id')
+            'countries' => Country::all()->sortBy('name')->pluck('name', 'id'),
         ];
 
         return view('backend.account.edit-directory', compact('directory', 'user', 'data'));
@@ -96,7 +96,6 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function updateDirectory(Request $request)
@@ -105,8 +104,9 @@ class AccountController extends Controller
         $directory = $user->directory;
         $directoryChange = $directory->change;
 
-        if (!$directoryChange) {
+        if (! $directoryChange) {
             session()->flash('alert-danger', __('Ha ocurrido un error, por favor vuelva a intentarlo.'));
+
             return redirect()->route('backend.account.edit_directory');
         }
 
@@ -147,25 +147,25 @@ class AccountController extends Controller
         ];
 
         foreach (locales() as $lang) {
-            $rules["{$lang}.description"] = 'nullable|required_without_all:' . implode(',', locales_except($lang, '.description')) . '|string';
+            $rules["{$lang}.description"] = 'nullable|required_without_all:'.implode(',', locales_except($lang, '.description')).'|string';
         }
 
         $data = $this->validate($request, $rules);
 
-        if (Entity::PERSON == $data['entity_id']) {
+        if ($data['entity_id'] == Entity::PERSON) {
             $data['contact_name'] = null;
             $data['contact_email'] = null;
             $data['contact_phone'] = null;
         }
 
         $data['partners'] = in_array($data['entity_id'], [6]) ? $data['partners'] : null;
-        $data['members'] = in_array($data['entity_id'], [4,5,7]) ? $data['members'] : null;
+        $data['members'] = in_array($data['entity_id'], [4, 5, 7]) ? $data['members'] : null;
         $data['represented'] = in_array($data['entity_id'], [8]) ? $data['represented'] : null;
-        $data['surface'] = in_array($data['entity_id'], [4,8]) ? $data['surface'] : null;
+        $data['surface'] = in_array($data['entity_id'], [4, 8]) ? $data['surface'] : null;
 
         if (! empty($data['image_is_new'])) {
             $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
-            $data['image'] = 'photo.' . $extension;
+            $data['image'] = 'photo.'.$extension;
         } elseif (empty($data['image'])) {
             $data['image'] = null;
 
@@ -223,13 +223,13 @@ class AccountController extends Controller
         }
 
         session()->flash('alert-success', __('Los datos se han modificado correctamente.'));
+
         return redirect()->route('backend.account.show');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function updateCommunication(Request $request)
@@ -249,13 +249,13 @@ class AccountController extends Controller
         $user->save();
 
         session()->flash('alert-success', __('Se ha actualizado los datos correctamente.'));
+
         return redirect()->route('backend.account.show');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function updateUser(Request $request)
@@ -268,7 +268,7 @@ class AccountController extends Controller
 
         $data = $this->validate($request, $rules);
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] == Hash::make($data['password']);
         }
 
@@ -278,13 +278,13 @@ class AccountController extends Controller
         $user->save();
 
         session()->flash('alert-success', __('Se ha actualizado los datos correctamente.'));
+
         return redirect()->route('backend.account.show');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -302,9 +302,10 @@ class AccountController extends Controller
             Auth::logout();
         }
 
-        Mail::to($user->email)->send(new AccountConfirmDeleteMail());
+        Mail::to($user->email)->send(new AccountConfirmDeleteMail);
 
         session()->flash('alert-success', __('Su cuenta ha sido borrada correctamente.'));
+
         return redirect()->route('home');
     }
 
@@ -320,6 +321,7 @@ class AccountController extends Controller
         Mail::to($user->email)->send(new AccountRequestDeleteMail($user));
 
         session()->flash('alert-success', 'Le hemos enviado un email de confirmación para completar la baja en esta plataforma.');
+
         return back();
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDirectoryChangesTable extends Migration
 {
@@ -52,7 +52,6 @@ class CreateDirectoryChangesTable extends Migration
 
             $table->foreign('id')->references('id')->on('directories');
         });
-
 
         Schema::create('directory_change_translations', function (Blueprint $table) {
             $table->increments('id');

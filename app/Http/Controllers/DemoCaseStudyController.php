@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DemoCaseStudy;
 use App\Condition;
 use App\Country;
+use App\DemoCaseStudy;
 use App\Sector;
 use App\Value;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 
 class DemoCaseStudyController extends Controller
 {
@@ -27,7 +26,7 @@ class DemoCaseStudyController extends Controller
             'conditions' => Condition::all()->pluck('name', 'id'),
             'countries' => Country::has('demos')->get()->sortBy('name')->pluck('name', 'id'),
             'sectors' => Sector::all()->pluck('name', 'id'),
-            'values' => $values->pluck('name', 'id')
+            'values' => $values->pluck('name', 'id'),
         ];
 
         if (request()->get('close') && $filter = session('filter_demo')) {
@@ -38,7 +37,7 @@ class DemoCaseStudyController extends Controller
                 'value_id' => $filter['value_id'],
             ]);
             $demos = DemoCaseStudy::filter(DemoCaseStudy::query(), request())
-                                  ->paginate(8);
+                ->paginate(8);
         } else {
             session()->forget('filter_demo');
             $demos = DemoCaseStudy::paginate(8);
@@ -51,7 +50,6 @@ class DemoCaseStudyController extends Controller
      * Display the specified resource.
      *
      * @param  Illuminate\Http\Request
-     * @param  \App\DemoCaseStudy  $demo
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, DemoCaseStudy $demo)
@@ -69,13 +67,13 @@ class DemoCaseStudyController extends Controller
                 ]);
             }
 
-             $demos = DemoCaseStudy::filter(DemoCaseStudy::query(), request())
+            $demos = DemoCaseStudy::filter(DemoCaseStudy::query(), request())
                 ->where('id', '!=', $demo->id)
-                ->offset(3 > $current ? 0 : $current - 2)
-                ->limit(1 == $current ? 1 : 2)
+                ->offset($current < 3 ? 0 : $current - 2)
+                ->limit($current == 1 ? 1 : 2)
                 ->get();
 
-            if (1 == $current) {
+            if ($current == 1) {
                 $paginate['next'] = optional($demos->first())->id;
             } elseif ($demos->count() == 1) { // Last page
                 $paginate['prev'] = optional($demos->first())->id;
@@ -93,7 +91,6 @@ class DemoCaseStudyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function list(Request $request)
@@ -102,7 +99,7 @@ class DemoCaseStudyController extends Controller
             'condition_id.*' => 'nullable|integer',
             'country_id.*' => 'nullable|integer',
             'sector_id.*' => 'nullable|integer',
-            'value_id.*' => 'nullable|integer'
+            'value_id.*' => 'nullable|integer',
         ]);
 
         $query = DemoCaseStudy::filter(DemoCaseStudy::query(), $request);
@@ -111,7 +108,7 @@ class DemoCaseStudyController extends Controller
             'condition_id' => $request->input('condition_id'),
             'country_id' => $request->input('country_id'),
             'sector_id' => $request->input('sector_id'),
-            'value_id' => $request->input('value_id')
+            'value_id' => $request->input('value_id'),
         ]]);
 
         $demos = $query->paginate(8);

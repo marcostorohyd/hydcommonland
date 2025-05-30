@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\MediaLibrary;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MediaLibraryPolicy
@@ -12,7 +12,7 @@ class MediaLibraryPolicy
 
     /**
      * @param  \App\User  $user
-     * @param  mixed      $ability
+     * @param  mixed  $ability
      * @return mixed
      */
     public function before($user, $ability)
@@ -25,8 +25,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can view the media library.
      *
-     * @param  \App\User  $user
-     * @param  \App\MediaLibrary  $mediaLibrary
      * @return mixed
      */
     public function view(User $user, MediaLibrary $mediaLibrary)
@@ -37,7 +35,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can create media libraries.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -48,8 +45,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can update the media library.
      *
-     * @param  \App\User  $user
-     * @param  \App\MediaLibrary  $mediaLibrary
      * @return mixed
      */
     public function update(User $user, MediaLibrary $mediaLibrary)
@@ -60,8 +55,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can delete the media library.
      *
-     * @param  \App\User  $user
-     * @param  \App\MediaLibrary  $mediaLibrary
      * @return mixed
      */
     public function delete(User $user, MediaLibrary $mediaLibrary)
@@ -72,8 +65,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can restore the media library.
      *
-     * @param  \App\User  $user
-     * @param  \App\MediaLibrary  $mediaLibrary
      * @return mixed
      */
     public function restore(User $user, MediaLibrary $mediaLibrary)
@@ -84,8 +75,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can permanently delete the media library.
      *
-     * @param  \App\User  $user
-     * @param  \App\MediaLibrary  $mediaLibrary
      * @return mixed
      */
     public function forceDelete(User $user, MediaLibrary $mediaLibrary)
@@ -96,7 +85,6 @@ class MediaLibraryPolicy
     /**
      * Determine whether the user can update or delete events.
      *
-     * @param  \App\User  $user
      * @return mixed
      */
     public function updateDelete(User $user)
