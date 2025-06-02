@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDirectoryChangesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -74,4 +74,4 @@ class CreateDirectoryChangesTable extends Migration
         Schema::dropIfExists('directory_change_translations');
         Schema::dropIfExists('directory_changes');
     }
-}
+};
