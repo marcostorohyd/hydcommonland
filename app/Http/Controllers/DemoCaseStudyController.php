@@ -74,12 +74,12 @@ class DemoCaseStudyController extends Controller
                 ->get();
 
             if ($current == 1) {
-                $paginate['next'] = optional($demos->first())->id;
+                $paginate['next'] = $demos->first()?->id;
             } elseif ($demos->count() == 1) { // Last page
-                $paginate['prev'] = optional($demos->first())->id;
+                $paginate['prev'] = $demos->first()?->id;
             } else {
-                $paginate['prev'] = optional($demos->first())->id;
-                $paginate['next'] = optional($demos->last())->id;
+                $paginate['prev'] = $demos->first()?->id;
+                $paginate['next'] = $demos->last()?->id;
             }
         } catch (\Exception $e) {
             $paginate = [];
