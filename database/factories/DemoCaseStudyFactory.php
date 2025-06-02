@@ -16,10 +16,10 @@ class DemoCaseStudyFactory extends Factory
         return [
             'name' => $this->faker->sentence(6),
             'date' => $this->faker->date(),
-            'address' => $this->faker->address,
+            'address' => $this->faker->address(),
             'country_id' => $this->faker->numberBetween(1, 74),
-            'link' => $this->faker->numberBetween(0, 1) ? $this->faker->url : null,
-            'email' => $this->faker->unique()->companyEmail,
+            'link' => $this->faker->numberBetween(0, 1) ? $this->faker->url() : null,
+            'email' => $this->faker->unique()->companyEmail(),
             'image' => '',
             'status_id' => $this->faker->numberBetween(1, 3),
         ];
