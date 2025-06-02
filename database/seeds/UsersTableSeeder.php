@@ -33,8 +33,8 @@ class UsersTableSeeder extends Seeder
             ],
         ]);
 
-        factory(App\User::class, 50)->create()->each(function ($user) {
-            $user->directory()->save(factory(App\Directory::class)->make());
+        \App\User::factory()->count(50)->create()->each(function ($user) {
+            $user->directory()->save(\App\Directory::factory()->make());
         });
 
         $locales = locales();

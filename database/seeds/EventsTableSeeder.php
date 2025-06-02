@@ -12,7 +12,7 @@ class EventsTableSeeder extends Seeder
      */
     public function run()
     {
-        $events = factory(App\Event::class, 50)->create();
+        $events = \App\Event::factory()->count(50)->create();
 
         $locales = locales();
         $faker = Faker::create();

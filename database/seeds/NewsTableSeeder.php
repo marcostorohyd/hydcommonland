@@ -12,7 +12,7 @@ class NewsTableSeeder extends Seeder
      */
     public function run()
     {
-        $news = factory(App\News::class, 50)->create();
+        $news = \App\News::factory()->count(50)->create();
 
         $locales = locales();
         $faker = Faker::create();

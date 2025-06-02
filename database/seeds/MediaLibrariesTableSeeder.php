@@ -12,7 +12,7 @@ class MediaLibrariesTableSeeder extends Seeder
      */
     public function run()
     {
-        $libraries = factory(App\MediaLibrary::class, 50)->create();
+        $libraries = \App\MediaLibrary::factory()->count(50)->create();
 
         $faker = Faker::create();
         foreach ($libraries as $library) {

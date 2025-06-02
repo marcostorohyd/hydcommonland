@@ -12,7 +12,7 @@ class DemoCaseStudiesTableSeeder extends Seeder
      */
     public function run()
     {
-        $demos = factory(App\DemoCaseStudy::class, 50)->create();
+        $demos = \App\DemoCaseStudy::factory()->count(50)->create();
 
         $locales = locales();
         $faker = Faker::create();

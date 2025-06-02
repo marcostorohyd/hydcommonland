@@ -1,19 +1,30 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\MediaLibrary::class, function (Faker $faker) {
-    return [
-        'name' => $faker->sentence(6),
-        'date' => $faker->dateTimeThisYear(),
-        'country_id' => $faker->numberBetween(1, 74),
-        'author' => $faker->name,
-        'email' => $faker->unique()->companyEmail,
-        'image' => '',
-        'format_id' => $faker->numberBetween(1, 5),
-        'external' => 1,
-        'link' => $faker->url,
-        'length' => $faker->numberBetween(1, 500),
-        'status_id' => $faker->numberBetween(1, 3),
-    ];
-});
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class MediaLibraryFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->sentence(6),
+            'date' => $this->faker->dateTimeThisYear(),
+            'country_id' => $this->faker->numberBetween(1, 74),
+            'author' => $this->faker->name,
+            'email' => $this->faker->unique()->companyEmail,
+            'image' => '',
+            'format_id' => $this->faker->numberBetween(1, 5),
+            'external' => 1,
+            'link' => $this->faker->url,
+            'length' => $this->faker->numberBetween(1, 500),
+            'status_id' => $this->faker->numberBetween(1, 3),
+        ];
+    }
+}
