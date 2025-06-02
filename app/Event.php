@@ -4,12 +4,14 @@ namespace App;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class Event extends Model
 {
+    use HasFactory;
     use SoftDeletes;
     use Translatable;
 

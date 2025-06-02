@@ -1,6 +1,8 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /*
@@ -14,13 +16,22 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    return [
-        // 'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => Str::random(10), // secret
-        'remember_token' => Str::random(10),
-        'approved_at' => $faker->numberBetween(0, 1) ? now() : null,
-    ];
-});
+class UserFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            // 'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => now(),
+            'password' => Str::random(10), // secret
+            'remember_token' => Str::random(10),
+            'approved_at' => $this->faker->numberBetween(0, 1) ? now() : null,
+        ];
+    }
+}

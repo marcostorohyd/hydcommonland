@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode as Middleware;
+use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
-class CheckForMaintenanceMode extends Middleware
+class PreventRequestsDuringMaintenance extends Middleware
 {
     /**
      * The URIs that should be reachable while maintenance mode is enabled.

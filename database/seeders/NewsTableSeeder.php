@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -12,7 +14,7 @@ class NewsTableSeeder extends Seeder
      */
     public function run()
     {
-        $news = factory(App\News::class, 50)->create();
+        $news = \App\News::factory()->count(50)->create();
 
         $locales = locales();
         $faker = Faker::create();
