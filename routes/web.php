@@ -129,7 +129,7 @@ Route::middleware('auth')->prefix('backend')->namespace('Backend')->name('backen
     Route::get('media/{media}/refuse', 'MediaLibraryController@refuse')->name('media.refuse');
     Route::post('media/datatable', 'MediaLibraryController@datatable')->name('media.datatable');
 
-    Route::group(['middleware' => ['isAdmin']], function () {
+    Route::middleware('isAdmin')->group(function () {
         // Country
         Route::resource('country', 'CountryController')->except('show');
         Route::post('country/datatable', 'CountryController@datatable')->name('country.datatable');
