@@ -8,7 +8,7 @@ use App\Directory;
 use App\Entity;
 use App\Sector;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 
 class HomeController extends Controller
 {
@@ -26,12 +26,12 @@ class HomeController extends Controller
         ];
 
         if (request()->get('close') && $filter = session('filter_directory')) {
-            Input::merge([
+            Request::merge([
                 'entity_id' => $filter['entity_id'],
                 'country_id' => $filter['country_id'],
                 'sector_id' => $filter['sector_id'],
             ]);
-            Input::flash();
+            Request::flash();
         }
 
         $directories = Directory::whereNotNull('latitude')

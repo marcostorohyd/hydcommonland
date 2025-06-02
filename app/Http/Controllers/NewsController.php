@@ -6,7 +6,7 @@ use App\Country;
 use App\News;
 use App\Sector;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request as Input;
 use Illuminate\Support\Facades\URL;
 
 class NewsController extends Controller
