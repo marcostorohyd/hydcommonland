@@ -9,7 +9,7 @@ use App\Sector;
 use App\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request as Input;
 use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\MediaStream;
 
