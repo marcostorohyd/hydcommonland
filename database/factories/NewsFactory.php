@@ -17,8 +17,8 @@ class NewsFactory extends Factory
             'name' => $this->faker->sentence(6),
             'date' => $this->faker->dateTimeThisYear(),
             'country_id' => $this->faker->numberBetween(1, 74),
-            'email' => $this->faker->unique()->companyEmail,
-            'link' => $this->faker->numberBetween(0, 1) ? $this->faker->url : null,
+            'email' => $this->faker->unique()->companyEmail(),
+            'link' => $this->faker->numberBetween(0, 1) ? $this->faker->url() : null,
             'image' => '',
             'status_id' => $this->faker->numberBetween(1, 3),
         ];

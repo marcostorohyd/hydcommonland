@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth;
 use App\Http\Controllers\Backend;
+use App\Http\Controllers\backend\CountryController;
+use App\Http\Controllers\backend\DirectoryChangeController;
 use App\Http\Controllers\DemoCaseStudyController;
 use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\EventController;
@@ -105,37 +107,37 @@ Route::middleware('auth')->prefix('backend')->name('backend.')->group(function (
 
     // Directory
     Route::get('directory/{directory}/delete', [Backend\DirectoryController::class, 'destroy'])->name('directory.delete');
-    Route::resource('directory', 'DirectoryController');
+    Route::resource('directory', DirectoryController::class);
     Route::get('directory/{directory}/approve', [Backend\DirectoryController::class, 'approve'])->name('directory.approve');
     Route::get('directory/{directory}/refuse', [Backend\DirectoryController::class, 'refuse'])->name('directory.refuse');
     Route::post('directory/datatable', [Backend\DirectoryController::class, 'datatable'])->name('directory.datatable');
     Route::match(['GET', 'POST'], 'directory/search', [Backend\DirectoryController::class, 'search'])->name('directory.search');
 
     // Directory change
-    Route::resource('directory-change', 'DirectoryChangeController');
+    Route::resource('directory-change', DirectoryChangeController::class);
     Route::get('directory-change/{directory_change}/approve', [Backend\DirectoryChangeController::class, 'approve'])->name('directory-change.approve');
     Route::get('directory-change/{directory_change}/refuse', [Backend\DirectoryChangeController::class, 'refuse'])->name('directory-change.refuse');
 
     // Event
-    Route::resource('event', 'EventController');
+    Route::resource('event', EventController::class);
     Route::get('event/{event}/approve', [Backend\EventController::class, 'approve'])->name('event.approve');
     Route::get('event/{event}/refuse', [Backend\EventController::class, 'refuse'])->name('event.refuse');
     Route::post('event/datatable', [Backend\EventController::class, 'datatable'])->name('event.datatable');
 
     // News
-    Route::resource('news', 'NewsController');
+    Route::resource('news', NewsController::class);
     Route::get('news/{news}/approve', [Backend\NewsController::class, 'approve'])->name('news.approve');
     Route::get('news/{news}/refuse', [Backend\NewsController::class, 'refuse'])->name('news.refuse');
     Route::post('news/datatable', [Backend\NewsController::class, 'datatable'])->name('news.datatable');
 
     // Demo case study
-    Route::resource('demo', 'DemoCaseStudyController');
+    Route::resource('demo', DemoCaseStudyController::class);
     Route::get('demo/{demo}/approve', [Backend\DemoCaseStudyController::class, 'approve'])->name('demo.approve');
     Route::get('demo/{demo}/refuse', [Backend\DemoCaseStudyController::class, 'refuse'])->name('demo.refuse');
     Route::post('demo/datatable', [Backend\DemoCaseStudyController::class, 'datatable'])->name('demo.datatable');
 
     // Media library
-    Route::resource('media', 'MediaLibraryController')->parameters([
+    Route::resource('media', MediaLibraryController::class)->parameters([
         'media' => 'media',
     ]);
     Route::get('media/{media}/approve', [Backend\MediaLibraryController::class, 'approve'])->name('media.approve');
@@ -144,7 +146,7 @@ Route::middleware('auth')->prefix('backend')->name('backend.')->group(function (
 
     Route::middleware('isAdmin')->group(function () {
         // Country
-        Route::resource('country', 'CountryController')->except('show');
+        Route::resource('country', CountryController::class)->except('show');
         Route::post('country/datatable', [Backend\CountryController::class, 'datatable'])->name('country.datatable');
         Route::match(['GET', 'POST'], 'country/search', [Backend\CountryController::class, 'search'])->name('country.search');
         Route::get('country/{country}/unassign-contact', [Backend\CountryController::class, 'unassignContact'])

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDemoCaseStudiesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -55,4 +55,4 @@ class CreateDemoCaseStudiesTable extends Migration
         Schema::dropIfExists('demo_case_study_translations');
         Schema::dropIfExists('demo_case_studies');
     }
-}
+};
